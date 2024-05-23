@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class JwtUtils {
+public class JwtUtil {
 
     //how long is the token valid? a whole day
     public static final long JWT_TOKEN_VALIDITY = 6000L * 60000 * 24;
