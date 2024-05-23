@@ -15,10 +15,10 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class JWTUtils {
+public class JwtUtils {
 
     //how long is the token valid? a whole day
-    public static final long JWT_TOKEN_VALIDITY = 6000 * 60000 * 24;
+    public static final long JWT_TOKEN_VALIDITY = 6000L * 60000 * 24;
 
     // get the jwt secret from the properties file
     @Value("${jwt.secret}")
@@ -27,6 +27,10 @@ public class JWTUtils {
     //get username from token
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public Date getIssuedAtDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getIssuedAt);
     }
 
     //get the claims (not sure which datatype- make generic to pass the claim) from token-objects inside jwt
