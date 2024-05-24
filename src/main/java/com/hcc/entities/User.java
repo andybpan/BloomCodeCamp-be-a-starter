@@ -14,7 +14,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "cohort_start_date")
     @Temporal(TemporalType.DATE)
@@ -37,6 +37,22 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCohortStartDate() {
+        return cohortStartDate;
+    }
+
+    public void setCohortStartDate(Date cohortStartDate) {
+        this.cohortStartDate = cohortStartDate;
+    }
+
     @Override
     public String getUsername() {
         return username;
@@ -55,29 +71,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Date getCohortStartDate() {
-        return cohortStartDate;
-    }
-
-    public void setCohortStartDate(Date cohortStartDate) {
-        this.cohortStartDate = cohortStartDate;
+    @Override
+    public Collection<Authority> getAuthorities() {
+        return new ArrayList<>(authorities);
     }
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    @Override
-    public Collection<Authority> getAuthorities() {
-        return new ArrayList<>(authorities);
     }
 
     @Override
