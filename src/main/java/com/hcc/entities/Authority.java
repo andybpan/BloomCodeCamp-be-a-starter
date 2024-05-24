@@ -2,6 +2,8 @@ package com.hcc.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
 public class Authority implements GrantedAuthority {
@@ -13,7 +15,6 @@ public class Authority implements GrantedAuthority {
     }
 
     public Authority(String authority, User user) {
-        // this.id = id;
         this.authority = authority;
         this.user = user;
     }

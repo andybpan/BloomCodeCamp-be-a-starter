@@ -13,7 +13,6 @@ public class Assignment {
     private User codeReviewer;
 
     public Assignment(String status, int number, String githubUrl, String branch, String reviewVideoUrl, User user) {
-        // this.id = id;
         this.status = status;
         this.number = number;
         this.githubUrl = githubUrl;
