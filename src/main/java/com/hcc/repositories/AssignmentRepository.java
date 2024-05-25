@@ -10,11 +10,9 @@ import java.util.Optional;
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
-    Optional<List<Assignment>> findByUserId(Long userId);
+    List<Assignment> findByUserId(Long userId);
 
     Optional<Assignment> findByID(Long id);
 
-    Optional<Assignment> updateAssignment(Long id, Assignment Assignment);
-
-    Optional<Assignment> createAssignment(Assignment Assignment);
+    Assignment save(Assignment Assignment);
 }

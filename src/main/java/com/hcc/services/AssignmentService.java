@@ -19,23 +19,34 @@ public class AssignmentService {
     AssignmentRepository assignmentRepo;
 
     public List<Assignment> getAssignmentsByUser(Long userId){
-        Optional<List<Assignment>> assignmentOpt = assignmentRepo.findByUserId(userId);
-        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        return assignmentRepo.findByUserId(userId);
     }
 
     public Assignment getAssignmentById(Long id){
         Optional<Assignment> assignmentOpt = assignmentRepo.findByID(id);
-        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        return assignmentOpt.orElseThrow(() -> new RuntimeException("Assignment not found with id " + id));
     }
 
     public Assignment updateAssignmentById(Long id, Assignment assignment){
-        Optional<Assignment> assignmentOpt = assignmentRepo.updateAssignment(id, assignment);
-        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        Assignment retrievedAssignment = getAssignmentById(id);
+
+        retrievedAssignment.setNumber(assignment.getNumber());
+        retrievedAssignment.setGithubUrl(assignment.getGithubUrl());
+        retrievedAssignment.setBranch(assignment.getBranch());
+
+        // Sometimes this will be missing - this will override it???
+        // We need to check the type of update this is in order to not accidentally overwrite info
+        // does RB do full updates on empty attributes? huh....
+        // where does the DTO come in.
+        retrievedAssignment.setCodeReviewer(assignment.getCodeReviewer());
+        retrievedAssignment.setReviewVideoUrl(assignment.getReviewVideoUrl());
+        retrievedAssignment.setStatus(assignment.getStatus());
+
+        return assignmentRepo.save(assignment);
     }
 
     public Assignment createAssignment(Assignment assignment){
-        Optional<Assignment> assignmentOpt = assignmentRepo.createAssignment(assignment);
-        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
+        return assignmentRepo.save(assignment);
     }
 
 }
