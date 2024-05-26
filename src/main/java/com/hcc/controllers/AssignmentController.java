@@ -1,5 +1,6 @@
 package com.hcc.controllers;
 
+import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
 import com.hcc.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,17 @@ public class AssignmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Assignment> getAssignmentById(@PathVariable Long id) {
+    public ResponseEntity<AssignmentResponseDto> getAssignmentById(@PathVariable Long id) {
         return ResponseEntity.ok(assignmentService.getAssignmentById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Assignment> updateAssignmentById(@PathVariable Long id, @RequestBody Assignment assignment) {
+    public ResponseEntity<AssignmentResponseDto> updateAssignmentById(@PathVariable Long id, @RequestBody Assignment assignment) {
         return ResponseEntity.ok(assignmentService.updateAssignmentById(id, assignment));
     }
 
     @PostMapping
-    public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
+    public ResponseEntity<AssignmentResponseDto> createAssignment(@RequestBody Assignment assignment) {
         return ResponseEntity.ok(assignmentService.createAssignment(assignment));
     }
 }

@@ -1,11 +1,13 @@
 package com.hcc.services;
 
+import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
 import com.hcc.enums.AssignmentStatusEnum;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +23,18 @@ public class AssignmentService {
         return assignmentRepo.findByUser_Id(userId);
     }
 
-    public Assignment getAssignmentById(Long id){
+    private Assignment getAssignmentByIdHelper(Long id){
         Optional<Assignment> assignmentOpt = assignmentRepo.findByID(id);
         return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Assignment not found with id " + id));
     }
 
-    public Assignment updateAssignmentById(Long id, Assignment updatedAssignment){
-        Assignment retrievedAssignment = getAssignmentById(id);
+    public AssignmentResponseDto getAssignmentById(Long id){
+        Assignment retrievedAssignment = getAssignmentByIdHelper(id);
+        return new AssignmentResponseDto(retrievedAssignment);
+    }
+
+    public AssignmentResponseDto updateAssignmentById(Long id, Assignment updatedAssignment){
+        Assignment retrievedAssignment = getAssignmentByIdHelper(id);
 
         retrievedAssignment.setNumber(updatedAssignment.getNumber());
         retrievedAssignment.setGithubUrl(updatedAssignment.getGithubUrl());
@@ -46,12 +53,14 @@ public class AssignmentService {
             throw new RuntimeException("Invalid status transition from " + currentStatus + " to " + newStatus);
         }
 
-        return assignmentRepo.save(retrievedAssignment);
+        Assignment savedAssignment = assignmentRepo.save(retrievedAssignment);
+        return new AssignmentResponseDto(savedAssignment);
     }
 
-    public Assignment createAssignment(Assignment assignment) {
+    public AssignmentResponseDto createAssignment(Assignment assignment) {
         assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
-        return assignmentRepo.save(assignment);
+
+        return new AssignmentResponseDto(assignment);
     }
 
     // Helper Methods
