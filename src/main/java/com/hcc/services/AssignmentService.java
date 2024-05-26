@@ -3,11 +3,11 @@ package com.hcc.services;
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
 import com.hcc.enums.AssignmentStatusEnum;
+import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +21,6 @@ public class AssignmentService {
 
     public List<Assignment> getAssignmentsByUser(Long userId){
         return assignmentRepo.findByUser_Id(userId);
-    }
-
-    private Assignment getAssignmentByIdHelper(Long id){
-        Optional<Assignment> assignmentOpt = assignmentRepo.findByID(id);
-        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Assignment not found with id " + id));
     }
 
     public AssignmentResponseDto getAssignmentById(Long id){
@@ -50,7 +45,7 @@ public class AssignmentService {
         if (isValidStatusTransition(currentStatus, newStatus)) {
             retrievedAssignment.setStatus(newStatus.getStatus());
         } else {
-            throw new RuntimeException("Invalid status transition from " + currentStatus + " to " + newStatus);
+            throw new InvalidStatusChangeException("Invalid status transition from " + currentStatus + " to " + newStatus);
         }
 
         Assignment savedAssignment = assignmentRepo.save(retrievedAssignment);
@@ -64,19 +59,25 @@ public class AssignmentService {
     }
 
     // Helper Methods
+    private Assignment getAssignmentByIdHelper(Long id){
+        Optional<Assignment> assignmentOpt = assignmentRepo.findById(id);
+        return assignmentOpt.orElseThrow(() -> new ResourceNotFoundException("Assignment not found with id " + id));
+    }
+
     private boolean isValidStatusTransition(AssignmentStatusEnum currentStatus, AssignmentStatusEnum newStatus) {
         switch (currentStatus) {
             case PENDING_SUBMISSION:
                 return newStatus == AssignmentStatusEnum.SUBMITTED;
-            case SUBMITTED, RESUBMITTED:
+            case SUBMITTED:
                 return newStatus == AssignmentStatusEnum.IN_REVIEW;
             case IN_REVIEW:
                 return newStatus == AssignmentStatusEnum.COMPLETED || newStatus == AssignmentStatusEnum.NEEDS_UPDATE;
             case NEEDS_UPDATE:
                 return newStatus == AssignmentStatusEnum.RESUBMITTED;
+            case RESUBMITTED:
+                return newStatus == AssignmentStatusEnum.IN_REVIEW;
             default:
                 return false;
         }
     }
-
 }

@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AuthenticationRepository extends JpaRepository<Authority, Long> {
 
-    Optional<Authority> findByID(Long id);
+//    Optional<Authority> findById(Long id);
 
 }
