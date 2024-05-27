@@ -2,10 +2,12 @@ package com.hcc.services;
 
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
+import com.hcc.entities.User;
 import com.hcc.enums.AssignmentStatusEnum;
 import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
+import com.hcc.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -19,8 +21,17 @@ public class AssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepo;
 
-    public List<Assignment> getAssignmentsByUser(Long userId){
-        return assignmentRepo.findByUser_Id(userId);
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserDetailServiceImpl userDetailServiceImpl;
+
+    public List<Assignment> getAssignmentsByUser(String token){
+        String actualToken = token.substring(7);
+        String username = jwtUtil.getUsernameFromToken(actualToken);
+        User user = userDetailServiceImpl.findUserByUsername(username);
+        return assignmentRepo.findByUser_Id(user.getId());
     }
 
     public AssignmentResponseDto getAssignmentById(Long id){

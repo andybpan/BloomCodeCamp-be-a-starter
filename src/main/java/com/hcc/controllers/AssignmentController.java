@@ -21,8 +21,8 @@ public class AssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Assignment>> getAllAssignmentsByUser(@RequestParam Long userId) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByUser(userId));
+    public ResponseEntity<List<Assignment>> getAllAssignmentsByUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsByUser(token));
     }
 
     @GetMapping("/{id}")

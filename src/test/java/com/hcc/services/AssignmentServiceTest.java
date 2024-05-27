@@ -8,6 +8,7 @@ import com.hcc.enums.AssignmentStatusEnum;
 import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
+import com.hcc.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,35 @@ public class AssignmentServiceTest {
     @MockBean
     private AssignmentRepository assignmentRepo;
 
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private UserDetailServiceImpl userDetailServiceImpl;
+
     @BeforeEach
     public void setUp() {
         // Initialization if necessary
     }
 
     // getAssignmentByUser Tests
+
+//    public List<Assignment> getAssignmentsByUser(String token){
+//        String actualToken = token.substring(7);
+//        String username = jwtUtil.getUsernameFromToken(actualToken);
+//        User user = userDetailServiceImpl.findUserByUsername(username);
+//        return assignmentRepo.findByUser_Id(user.getId());
+//    }
     @Test
     public void getAssignmentsByUser_existingUser_returnAssignments() {
         // GIVEN
+        String token = "Bearer token1234567890";
+        String username = "username";
         Long userId = 1L;
 
+        User user = new User();
+        user.setId(userId);
+        user.setUsername(username);
         Assignment assignment1 = new Assignment();
         Assignment assignment2 = new Assignment();
         Assignment assignment3 = new Assignment();
@@ -53,10 +72,12 @@ public class AssignmentServiceTest {
         expectedAssignmentList.add(assignment2);
         expectedAssignmentList.add(assignment3);
 
-        when(assignmentRepo.findByUser_Id(userId)).thenReturn(expectedAssignmentList);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(username);
+        when(userDetailServiceImpl.findUserByUsername(username)).thenReturn(user);
+        when(assignmentRepo.findByUser_Id(user.getId())).thenReturn(expectedAssignmentList);
 
         // WHEN
-        List<Assignment> result = assignmentService.getAssignmentsByUser(userId);
+        List<Assignment> result = assignmentService.getAssignmentsByUser(token);
 
         // THEN
         assertEquals(expectedAssignmentList, result);
@@ -65,14 +86,22 @@ public class AssignmentServiceTest {
     @Test
     public void getAssignmentsByUser_existingUser_returnNoAssignments(){
         // GIVEN
+        String token = "Bearer token1234567890";
+        String username = "username";
         Long userId = 1L;
+
+        User user = new User();
+        user.setId(userId);
+        user.setUsername(username);
 
         List<Assignment> expectedAssignmentList = new ArrayList<>();
 
-        when(assignmentRepo.findByUser_Id(userId)).thenReturn(expectedAssignmentList);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(username);
+        when(userDetailServiceImpl.findUserByUsername(username)).thenReturn(user);
+        when(assignmentRepo.findByUser_Id(user.getId())).thenReturn(expectedAssignmentList);
 
         // WHEN
-        List<Assignment> result = assignmentService.getAssignmentsByUser(userId);
+        List<Assignment> result = assignmentService.getAssignmentsByUser(token);
 
         // THEN
         assertEquals(expectedAssignmentList, result);
