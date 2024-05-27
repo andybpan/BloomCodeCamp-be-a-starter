@@ -1,35 +1,41 @@
 package com.hcc.services;
 
 import com.hcc.dto.AuthCredentialsRequest;
-import com.hcc.entities.Assignment;
-import com.hcc.entities.User;
-import com.hcc.exceptions.ResourceNotFoundException;
-import com.hcc.repositories.AssignmentRepository;
-import com.hcc.repositories.AuthenticationRepository;
+import com.hcc.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthenticationService {
 
     @Autowired
-    AuthenticationRepository authRepo;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserDetailServiceImpl userService;
+    private JwtUtil jwtUtil;
 
-    // Method outlines set up - need to update logic
-    public UserDetails login(AuthCredentialsRequest request){
-        UserDetails user = userService.loadUserByUsername(request.getUsername());
-        return user;
+    @Autowired
+    private UserDetailServiceImpl userDetailServiceImpl;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public String login(AuthCredentialsRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return jwtUtil.generateToken(userDetails);
     }
 
-    public User validateToken(String token){
-        return null;
+    public boolean validateToken(String token) {
+        String username = jwtUtil.getUsernameFromToken(token);
+        UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(username);
+        return jwtUtil.validateToken(token, userDetails);
     }
-
 }
