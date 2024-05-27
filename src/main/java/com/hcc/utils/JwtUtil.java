@@ -17,16 +17,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil implements Serializable {
+    public static final long JWT_TOKEN_VALIDITY = 5 * 24 * 60 * 60;
 
-    //how long is the token valid? a whole day
-    public static final long JWT_TOKEN_VALIDITY = 6000L * 60000 * 24;
-
-    // get the jwt secret from the properties file
     @Value("${jwt.secret}")
     private String secret;
 
-    //get username from token
-    public String getUsernameFromToken(String token){
+    public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -34,22 +30,20 @@ public class JwtUtil implements Serializable {
         return getClaimFromToken(token, Claims::getIssuedAt);
     }
 
-    //get the claims (not sure which datatype- make generic to pass the claim) from token-objects inside jwt
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver ){
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token){
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+    private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    //check if token is expired
-    public Date getExpirationDateFromToken(String token){
-        return getClaimFromToken(token, Claims::getExpiration);
     }
 
     private Boolean isTokenExpired(String token) {
@@ -57,13 +51,13 @@ public class JwtUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    //generate token
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", userDetails.getAuthorities()
                 .stream()
                 .map(auth -> auth.getAuthority())
                 .collect(Collectors.toList()));
+
 
         return doGenerateToken(claims, userDetails.getUsername());
     }
@@ -77,11 +71,11 @@ public class JwtUtil implements Serializable {
                 .compact();
     }
 
-    //validate token
-
-    public boolean validateToken(String token, UserDetails userDetails){
+    public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (
+                username.equals(userDetails.getUsername())
+                        && !isTokenExpired(token));
     }
 
 }
