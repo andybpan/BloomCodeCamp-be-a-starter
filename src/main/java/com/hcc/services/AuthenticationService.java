@@ -38,7 +38,7 @@ public class AuthenticationService {
     }
 
     public boolean validateToken(String token) {
-        String username = jwtUtil.getUsernameFromToken(token);
+        String username = jwtUtil.getUsernameFromToken(token.substring(7));
         UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(username);
         return jwtUtil.validateToken(token, userDetails);
     }
