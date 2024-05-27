@@ -27,11 +27,8 @@ public class AssignmentService {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
 
-    public List<Assignment> getAssignmentsByUser(String token){
-        String actualToken = token.substring(7);
-        String username = jwtUtil.getUsernameFromToken(actualToken);
-        User user = userDetailServiceImpl.findUserByUsername(username);
-        return assignmentRepo.findByUser_Id(user.getId());
+    public List<Assignment> getAssignmentsByUser(User user){
+        return assignmentRepo.findByUser(user);
     }
 
     public AssignmentResponseDto getAssignmentById(Long id){
@@ -64,10 +61,10 @@ public class AssignmentService {
         return new AssignmentResponseDto(retrievedAssignment);
     }
 
-    public AssignmentResponseDto createAssignment(Assignment assignment) {
+    public AssignmentResponseDto createAssignment(User user) {
         Assignment newAssignment = new Assignment();
         newAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
-        newAssignment.setUser(assignment.getUser());
+        newAssignment.setUser(user);
         assignmentRepo.save(newAssignment);
         return new AssignmentResponseDto(newAssignment);
     }

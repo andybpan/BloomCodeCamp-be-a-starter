@@ -2,9 +2,11 @@ package com.hcc.controllers;
 
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
+import com.hcc.entities.User;
 import com.hcc.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,22 +23,22 @@ public class AssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Assignment>> getAllAssignmentsByUser(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(assignmentService.getAssignmentsByUser(token));
+    public ResponseEntity<List<Assignment>> getAllAssignmentsByUser(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(assignmentService.getAssignmentsByUser(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AssignmentResponseDto> getAssignmentById(@PathVariable Long id) {
+    public ResponseEntity<AssignmentResponseDto> getAssignmentById(@AuthenticationPrincipal User user, @PathVariable Long id) {
         return ResponseEntity.ok(assignmentService.getAssignmentById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AssignmentResponseDto> updateAssignmentById(@PathVariable Long id, @RequestBody Assignment assignment) {
+    public ResponseEntity<AssignmentResponseDto> updateAssignmentById(@AuthenticationPrincipal User user, @PathVariable Long id, @RequestBody Assignment assignment) {
         return ResponseEntity.ok(assignmentService.updateAssignmentById(id, assignment));
     }
 
     @PostMapping
-    public ResponseEntity<AssignmentResponseDto> createAssignment(@RequestBody Assignment assignment) {
-        return ResponseEntity.ok(assignmentService.createAssignment(assignment));
+    public ResponseEntity<AssignmentResponseDto> createAssignment(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(assignmentService.createAssignment(user));
     }
 }

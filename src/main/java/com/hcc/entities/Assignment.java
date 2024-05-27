@@ -27,11 +27,9 @@ public class Assignment {
     private String reviewVideoUrl;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "code_reviewer_id")
+    @ManyToOne(optional = false)
     private User codeReviewer;
 
     public Assignment(String status, int number, String githubUrl, String branch, String reviewVideoUrl, User user) {
