@@ -48,13 +48,6 @@ public class AssignmentServiceTest {
     }
 
     // getAssignmentByUser Tests
-
-//    public List<Assignment> getAssignmentsByUser(String token){
-//        String actualToken = token.substring(7);
-//        String username = jwtUtil.getUsernameFromToken(actualToken);
-//        User user = userDetailServiceImpl.findUserByUsername(username);
-//        return assignmentRepo.findByUser_Id(user.getId());
-//    }
     @Test
     public void getAssignmentsByUser_learnerUser_returnAssignments() {
         // GIVEN
@@ -156,12 +149,12 @@ public class AssignmentServiceTest {
 
         Assignment retrievedAssignment = new Assignment();
         retrievedAssignment.setId(id);
-        retrievedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        retrievedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.name());
         retrievedAssignment.setNumber(1);
 
         Assignment expectedAssignment = new Assignment();
         expectedAssignment.setId(id);
-        expectedAssignment.setStatus(AssignmentStatusEnum.SUBMITTED.toString());
+        expectedAssignment.setStatus(AssignmentStatusEnum.SUBMITTED.name());
         expectedAssignment.setNumber(1);
         expectedAssignment.setBranch("https://github.com/someUser/project");
         expectedAssignment.setBranch("branch1");
