@@ -25,6 +25,10 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Uses the authenticationManager from SecurityConfig
+    // authenticates the username and passcode
+    // retrieves the user - from the inside
+    // generates the token
     public String login(AuthCredentialsRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
