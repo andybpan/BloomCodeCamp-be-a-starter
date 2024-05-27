@@ -114,7 +114,7 @@ public class Assignment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Assignment that = (Assignment) o;
-        return id == that.id && number == that.number && Objects.equals(status, that.status) && Objects.equals(githubUrl, that.githubUrl) && Objects.equals(branch, that.branch) && Objects.equals(reviewVideoUrl, that.reviewVideoUrl) && Objects.equals(user, that.user) && Objects.equals(codeReviewer, that.codeReviewer);
+        return Objects.equals(id, that.id) && Objects.equals(status, that.status) && Objects.equals(number, that.number) && Objects.equals(githubUrl, that.githubUrl) && Objects.equals(branch, that.branch) && Objects.equals(reviewVideoUrl, that.reviewVideoUrl) && Objects.equals(user, that.user) && Objects.equals(codeReviewer, that.codeReviewer);
     }
 
     @Override

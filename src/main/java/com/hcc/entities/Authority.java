@@ -58,7 +58,7 @@ public class Authority implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Authority authority1 = (Authority) o;
-        return id == authority1.id && Objects.equals(authority, authority1.authority) && Objects.equals(user, authority1.user);
+        return Objects.equals(id, authority1.id) && Objects.equals(authority, authority1.authority) && Objects.equals(user, authority1.user);
     }
 
     @Override

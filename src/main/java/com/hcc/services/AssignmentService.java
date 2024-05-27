@@ -36,26 +36,29 @@ public class AssignmentService {
         retrievedAssignment.setBranch(updatedAssignment.getBranch());
         retrievedAssignment.setCodeReviewer(updatedAssignment.getCodeReviewer());
         retrievedAssignment.setReviewVideoUrl(updatedAssignment.getReviewVideoUrl());
-        retrievedAssignment.setStatus(updatedAssignment.getStatus());
+        retrievedAssignment.setUser(updatedAssignment.getUser());
+        retrievedAssignment.setCodeReviewer(updatedAssignment.getCodeReviewer());
 
         // update status
-        AssignmentStatusEnum currentStatus = AssignmentStatusEnum.valueOf(retrievedAssignment.getStatus().toUpperCase());
-        AssignmentStatusEnum newStatus = AssignmentStatusEnum.valueOf(updatedAssignment.getStatus().toUpperCase());
+        AssignmentStatusEnum currentStatus = AssignmentStatusEnum.valueOf(retrievedAssignment.getStatus());
+        AssignmentStatusEnum newStatus = AssignmentStatusEnum.valueOf(updatedAssignment.getStatus());
 
         if (isValidStatusTransition(currentStatus, newStatus)) {
-            retrievedAssignment.setStatus(newStatus.getStatus());
+            retrievedAssignment.setStatus(newStatus.toString());
         } else {
             throw new InvalidStatusChangeException("Invalid status transition from " + currentStatus + " to " + newStatus);
         }
 
-        Assignment savedAssignment = assignmentRepo.save(retrievedAssignment);
-        return new AssignmentResponseDto(savedAssignment);
+        assignmentRepo.save(retrievedAssignment);
+        return new AssignmentResponseDto(retrievedAssignment);
     }
 
     public AssignmentResponseDto createAssignment(Assignment assignment) {
-        assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
-
-        return new AssignmentResponseDto(assignment);
+        Assignment newAssignment = new Assignment();
+        newAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        newAssignment.setUser(assignment.getUser());
+        assignmentRepo.save(newAssignment);
+        return new AssignmentResponseDto(newAssignment);
     }
 
     // Helper Methods

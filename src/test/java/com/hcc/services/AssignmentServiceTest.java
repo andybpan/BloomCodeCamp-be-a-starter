@@ -3,6 +3,9 @@ package com.hcc.services;
 
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
+import com.hcc.entities.User;
+import com.hcc.enums.AssignmentStatusEnum;
+import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -73,9 +78,7 @@ public class AssignmentServiceTest {
         assertEquals(expectedAssignmentList, result);
     }
 
-
     // getAssignmentById Tests
-    // public AssignmentResponseDto getAssignmentById(Long id){}
     @Test
     public void getAssignmentById_existingId_returnAssignmentDto(){
         // GIVEN
@@ -90,7 +93,7 @@ public class AssignmentServiceTest {
         AssignmentResponseDto result = assignmentService.getAssignmentById(id);
 
         // THEN
-        assertEquals(expectedAssignmentDto, result);
+        assertEquals(expectedAssignmentDto.getAssignment(), result.getAssignment());
     }
 
     @Test
@@ -106,28 +109,140 @@ public class AssignmentServiceTest {
         // WHEN
         // THEN
         assertThrows(ResourceNotFoundException.class, ()->{
-            assignmentService.getAssignmentById(id);;
+            assignmentService.getAssignmentById(id);
         });
     }
 
-    // public AssignmentResponseDto updateAssignmentById(Long id, Assignment updatedAssignment){}
+    // updateAssignmentById Tests
     @Test
-    public void updateAssignmentById_existingId_returnAssignmentDto(){
+    public void updateAssignmentById_pendingToSubmitted_returnAssignmentDto_(){
+        // GIVEN
+        Long id = 1L;
+        User expected_Learner = new User();
 
+        Assignment retrievedAssignment = new Assignment();
+        retrievedAssignment.setId(id);
+        retrievedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        retrievedAssignment.setNumber(1);
+
+        Assignment expectedAssignment = new Assignment();
+        expectedAssignment.setId(id);
+        expectedAssignment.setStatus(AssignmentStatusEnum.SUBMITTED.toString());
+        expectedAssignment.setNumber(1);
+        expectedAssignment.setBranch("https://github.com/someUser/project");
+        expectedAssignment.setBranch("branch1");
+        expectedAssignment.setUser(expected_Learner);
+
+        AssignmentResponseDto expectedAssignmentDto = new AssignmentResponseDto(expectedAssignment);
+
+        when(assignmentRepo.findById(id)).thenReturn(Optional.of(retrievedAssignment));
+
+        // WHEN
+        AssignmentResponseDto result = assignmentService.updateAssignmentById(id, expectedAssignment);
+
+        // THEN
+        verify(assignmentRepo).save(any(Assignment.class));
+        assertEquals(expectedAssignmentDto.getAssignment(), result.getAssignment());
+        assertEquals((AssignmentStatusEnum.SUBMITTED.toString()), result.getAssignment().getStatus());
+    }
+
+    @Test
+    public void updateAssignmentById_inReviewToComplete_returnAssignmentDto_(){
+        // GIVEN
+        Long id = 1L;
+
+        Assignment retrievedAssignment = new Assignment();
+        retrievedAssignment.setId(id);
+        retrievedAssignment.setStatus(AssignmentStatusEnum.IN_REVIEW.toString());
+        retrievedAssignment.setNumber(1);
+
+        Assignment expectedAssignment = new Assignment();
+        expectedAssignment.setId(id);
+        expectedAssignment.setStatus(AssignmentStatusEnum.COMPLETED.toString());
+        expectedAssignment.setNumber(1);
+
+        AssignmentResponseDto expectedAssignmentDto = new AssignmentResponseDto(expectedAssignment);
+
+        when(assignmentRepo.findById(id)).thenReturn(Optional.of(retrievedAssignment));
+
+        // WHEN
+        AssignmentResponseDto result = assignmentService.updateAssignmentById(id, expectedAssignment);
+
+        // THEN
+        verify(assignmentRepo).save(any(Assignment.class));
+        assertEquals(expectedAssignmentDto.getAssignment(), result.getAssignment());
+        assertEquals((AssignmentStatusEnum.COMPLETED.toString()), result.getAssignment().getStatus());
     }
 
 
     @Test
     public void updateAssignmentById_nonExistingId_throwResourceNotFoundException(){
+        // GIVEN
+        Long id = 1L;
+        User expected_Learner = new User();
 
+        Assignment expectedAssignment = new Assignment();
+        expectedAssignment.setId(id);
+        expectedAssignment.setStatus(AssignmentStatusEnum.SUBMITTED.toString());
+        expectedAssignment.setNumber(1);
+        expectedAssignment.setBranch("https://github.com/someUser/project");
+        expectedAssignment.setBranch("branch1");
+        expectedAssignment.setUser(expected_Learner);
+
+        when(assignmentRepo.findById(id)).thenReturn(Optional.empty());
+        // WHEN
+        // THEN
+        assertThrows(ResourceNotFoundException.class, ()->{
+            assignmentService.updateAssignmentById(id, expectedAssignment);
+        });
     }
 
     @Test
     public void updateAssignmentById_invalidStatusChange_throwInvalidStatusChangeException(){
+        // GIVEN
+        Long id = 1L;
+        User expected_Learner = new User();
 
+        Assignment retrievedAssignment = new Assignment();
+        retrievedAssignment.setId(id);
+        retrievedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        retrievedAssignment.setNumber(1);
+
+        Assignment expectedAssignment = new Assignment();
+        expectedAssignment.setId(id);
+        expectedAssignment.setStatus(AssignmentStatusEnum.IN_REVIEW.toString());
+        expectedAssignment.setNumber(1);
+        expectedAssignment.setBranch("https://github.com/someUser/project");
+        expectedAssignment.setBranch("branch1");
+        expectedAssignment.setUser(expected_Learner);
+
+        when(assignmentRepo.findById(id)).thenReturn(Optional.of(retrievedAssignment));
+
+        // WHEN
+        // THEN
+        assertThrows(InvalidStatusChangeException.class, ()->{
+            assignmentService.updateAssignmentById(id, expectedAssignment);
+        });
     }
 
-    // public AssignmentResponseDto createAssignment(Assignment assignment) {}
+    // createAssignment Tests
+    @Test
+    public void createAssignment_pendingStatus_returnAssignmentDto_(){
+        // GIVEN
+        User expected_Learner = new User();
 
+        Assignment expectedAssignment = new Assignment();
+        expectedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        expectedAssignment.setUser(expected_Learner);
 
+        AssignmentResponseDto expectedAssignmentDto = new AssignmentResponseDto(expectedAssignment);
+
+        // WHEN
+        AssignmentResponseDto result = assignmentService.createAssignment(expectedAssignment);
+
+        // THEN
+        verify(assignmentRepo).save(any(Assignment.class));
+        assertEquals(expectedAssignmentDto.getAssignment(), result.getAssignment());
+        assertEquals((AssignmentStatusEnum.PENDING_SUBMISSION.toString()), result.getAssignment().getStatus());
+    }
 }
