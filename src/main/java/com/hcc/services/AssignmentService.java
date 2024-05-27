@@ -4,6 +4,7 @@ import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
 import com.hcc.entities.User;
 import com.hcc.enums.AssignmentStatusEnum;
+import com.hcc.enums.AuthorityEnum;
 import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
@@ -27,8 +28,15 @@ public class AssignmentService {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
 
-    public List<Assignment> getAssignmentsByUser(User user){
-        return assignmentRepo.findByUser(user);
+    // Return assignments based on user & user role type
+    public List<Assignment> getAssignmentsByUser(User user) {
+        boolean hasCodeReviewerRole = user.getAuthorities().stream()
+                .anyMatch(auth -> AuthorityEnum.ROLE_REVIEWER.name().equals(auth.getAuthority()));
+        if (hasCodeReviewerRole) {
+            return assignmentRepo.findByCodeReviewer(user);
+        } else {
+            return assignmentRepo.findByUser(user);
+        }
     }
 
     public AssignmentResponseDto getAssignmentById(Long id){
