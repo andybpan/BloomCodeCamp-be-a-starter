@@ -5,6 +5,11 @@ public class AuthCredentialsRequest {
     private String username;
     private String password;
 
+    public AuthCredentialsRequest(String password, String username) {
+        this.password = password;
+        this.username = username;
+    }
+
     public AuthCredentialsRequest() {}
 
     public String getUsername() {
