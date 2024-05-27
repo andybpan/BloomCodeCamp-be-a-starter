@@ -83,11 +83,11 @@ public class AuthenticationServiceTest {
     @Test
     public void validateToken_validToken_returnsTrue() {
         // GIVEN
-        String token = "token";
+        String token = "some token asjkdfalskdflasfjkbsf";
         String expectedUserName = "expected_username";
         User expectedUser = new User();
 
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn(expectedUserName);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(expectedUserName);
         when(userDetailServiceImpl.loadUserByUsername(expectedUserName)).thenReturn(expectedUser);
         when(jwtUtil.validateToken(token, expectedUser)).thenReturn(true);
         // WHEN
@@ -99,11 +99,11 @@ public class AuthenticationServiceTest {
 
     @Test
     public void validateToken_validToken_returnsTrue_UserDetails() {
-        String token = "some.jwt.token";
+        String token = "some token asjkdfalskdflasfjkbsf";
         String username = "some.username";
         UserDetails userDetails = mock(UserDetails.class);
 
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn(username);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(username);
         when(userDetailServiceImpl.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtUtil.validateToken(token, userDetails)).thenReturn(true);
 
@@ -115,12 +115,12 @@ public class AuthenticationServiceTest {
     @Test
     public void validateToken_invalidToken_returnsFalse() {
         // GIVEN
-        String token = "invalidtoken";
+        String token = "some token asjkdfalskdflasfjkbsf";
         String randomUsername = "random_username";
         User randomUser = new User();
 
         // if somehow the token retrieve a random username
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn(randomUsername);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(randomUsername);
         when(userDetailServiceImpl.loadUserByUsername(randomUsername)).thenReturn(randomUser);
         when(jwtUtil.validateToken(token, randomUser)).thenReturn(false);
 
@@ -134,10 +134,10 @@ public class AuthenticationServiceTest {
     @Test
     public void validateToken_UsernameNotFound_throwsUsernameNotFoundException() {
         // GIVEN
-        String token = "invalidtoken";
+        String token = "some token asjkdfalskdflasfjkbsf";
         String expectedUserName = "expected_username";
 
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn(expectedUserName);
+        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(expectedUserName);
         when(userDetailServiceImpl.loadUserByUsername(expectedUserName))
                 .thenThrow(new UsernameNotFoundException("Invalid Credentials"));
         // WHEN
