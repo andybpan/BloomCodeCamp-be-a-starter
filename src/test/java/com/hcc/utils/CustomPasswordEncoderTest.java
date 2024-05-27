@@ -17,6 +17,13 @@ public class CustomPasswordEncoderTest {
             "$2a$10$p562CyCYviH2Q1kELH5dJ.3Bwkl.pXrH9vcl0osd0UZe4xeK1k6se",
             "$2a$10$ZzzJWnwoMwAp1I33eP1UKO13CL/WrLrKKlkRFFNG4lT7l7hIYmTZm");
 
+    public static List<String> passwords2 = List.of("password123", "password456", "password789", "password1");
+    public static List<String> encodedPasswords2 = List.of(
+            "$2a$10$cVJCoJIxZEXORCOpGItA..HOP8de.w/JjUoQPB8OoYus2H9Zr4CpS",
+            "$2a$10$gd6aO8DSLrp6hH2TTK0ejeaLA9h/x8r2kUORPPU5HKsaR6VZ7azdG",
+            "$2a$10$6dq3Oh3Uxsm.8YoJSW5bRuh9mI/43bpFcOz5XXZJ5ixUORazbyeKi",
+            "$2a$10$QJIGceUgRQiDwXXIQnBf/esfR6ED6lxOY4Hawgn4MKA6Jk7vajex.");
+
     private final CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
     @Test
@@ -29,12 +36,23 @@ public class CustomPasswordEncoderTest {
 
     @Test
     public void encodePasswords() {
-        List<String> encodedCodes = new ArrayList<>();
+        List<String> encoded = new ArrayList<>();
 
-        encodedPasswords = passwords.stream()
+        encoded = passwords.stream()
                 .map(password -> passwordEncoder.getPasswordEncoder().encode(password))
                 .toList();
 
-        encodedPasswords.forEach(System.out::println);
+        encoded.forEach(System.out::println);
+    }
+
+    @Test
+    public void encodePasswords2() {
+        List<String> encoded = new ArrayList<>();
+
+        encoded = passwords2.stream()
+                .map(password -> passwordEncoder.getPasswordEncoder().encode(password))
+                .toList();
+
+        encoded.forEach(System.out::println);
     }
 }
