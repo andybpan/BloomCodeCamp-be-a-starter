@@ -24,7 +24,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestParam String token) {
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(authenticationService.validateToken(token));
     }
 }
