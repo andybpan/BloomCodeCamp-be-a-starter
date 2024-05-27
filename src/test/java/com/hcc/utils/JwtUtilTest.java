@@ -30,7 +30,7 @@ class JwtUtilTest {
         String username = "johndoe";
         userDetails = new User(username, "password123", Arrays.asList(new SimpleGrantedAuthority("ROLE_LEARNER")));
         String token = jwtUtil.generateToken(userDetails);
-
+        // System.out.println("token: " + token);
         // WHEN
         boolean isValid = jwtUtil.validateToken(token, userDetails);
 
