@@ -11,8 +11,5 @@ import java.util.Optional;
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     List<Assignment> findByUser_Id(Long userId);
-
-    List<Assignment> findByCodeReviewer_Id(Long userId);
-
 //    Optional<Assignment> findById(Long id);
 }
