@@ -17,7 +17,7 @@ import java.util.Optional;
 public class AssignmentService {
 
     @Autowired
-    AssignmentRepository assignmentRepo;
+    private AssignmentRepository assignmentRepo;
 
     public List<Assignment> getAssignmentsByUser(Long userId){
         return assignmentRepo.findByUser_Id(userId);
