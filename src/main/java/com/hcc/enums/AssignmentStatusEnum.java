@@ -25,4 +25,17 @@ public enum AssignmentStatusEnum {
     public Integer getStep() {
         return step;
     }
+
+
+    public static AssignmentStatusEnum fromString(String status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status value cannot be null");
+        }
+        for (AssignmentStatusEnum assignmentStatus : values()) {
+            if (assignmentStatus.name().equalsIgnoreCase(status)) {
+                return assignmentStatus;
+            }
+        }
+        throw new IllegalArgumentException("Unknown enum value: " + status);
+    }
 }

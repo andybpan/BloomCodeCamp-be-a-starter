@@ -3,8 +3,10 @@ package com.hcc.services;
 
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
+import com.hcc.entities.Authority;
 import com.hcc.entities.User;
 import com.hcc.enums.AssignmentStatusEnum;
+import com.hcc.enums.AuthorityEnum;
 import com.hcc.exceptions.InvalidStatusChangeException;
 import com.hcc.exceptions.ResourceNotFoundException;
 import com.hcc.repositories.AssignmentRepository;
@@ -54,15 +56,19 @@ public class AssignmentServiceTest {
 //        return assignmentRepo.findByUser_Id(user.getId());
 //    }
     @Test
-    public void getAssignmentsByUser_existingUser_returnAssignments() {
+    public void getAssignmentsByUser_learnerUser_returnAssignments() {
         // GIVEN
-        String token = "Bearer token1234567890";
         String username = "username";
         Long userId = 1L;
+
+        Authority authority = new Authority();
+        authority.setAuthority(AuthorityEnum.ROLE_LEARNER.name());
 
         User user = new User();
         user.setId(userId);
         user.setUsername(username);
+        user.setAuthorities(List.of(authority));
+
         Assignment assignment1 = new Assignment();
         Assignment assignment2 = new Assignment();
         Assignment assignment3 = new Assignment();
@@ -72,36 +78,35 @@ public class AssignmentServiceTest {
         expectedAssignmentList.add(assignment2);
         expectedAssignmentList.add(assignment3);
 
-        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(username);
-        when(userDetailServiceImpl.findUserByUsername(username)).thenReturn(user);
-        when(assignmentRepo.findByUser_Id(user.getId())).thenReturn(expectedAssignmentList);
+        when(assignmentRepo.findByUser(user)).thenReturn(expectedAssignmentList);
 
         // WHEN
-        List<Assignment> result = assignmentService.getAssignmentsByUser(token);
+        List<Assignment> result = assignmentService.getAssignmentsByUser(user);
 
         // THEN
         assertEquals(expectedAssignmentList, result);
     }
 
     @Test
-    public void getAssignmentsByUser_existingUser_returnNoAssignments(){
+    public void getAssignmentsByUser_reviewerUser_returnNoAssignments(){
         // GIVEN
-        String token = "Bearer token1234567890";
         String username = "username";
         Long userId = 1L;
+
+        Authority authority = new Authority();
+        authority.setAuthority(AuthorityEnum.ROLE_REVIEWER.name());
 
         User user = new User();
         user.setId(userId);
         user.setUsername(username);
+        user.setAuthorities(List.of(authority));
 
         List<Assignment> expectedAssignmentList = new ArrayList<>();
 
-        when(jwtUtil.getUsernameFromToken(token.substring(7))).thenReturn(username);
-        when(userDetailServiceImpl.findUserByUsername(username)).thenReturn(user);
-        when(assignmentRepo.findByUser_Id(user.getId())).thenReturn(expectedAssignmentList);
+        when(assignmentRepo.findByUser(user)).thenReturn(expectedAssignmentList);
 
         // WHEN
-        List<Assignment> result = assignmentService.getAssignmentsByUser(token);
+        List<Assignment> result = assignmentService.getAssignmentsByUser(user);
 
         // THEN
         assertEquals(expectedAssignmentList, result);
@@ -260,18 +265,11 @@ public class AssignmentServiceTest {
         // GIVEN
         User expected_Learner = new User();
 
-        Assignment expectedAssignment = new Assignment();
-        expectedAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
-        expectedAssignment.setUser(expected_Learner);
-
-        AssignmentResponseDto expectedAssignmentDto = new AssignmentResponseDto(expectedAssignment);
-
         // WHEN
-        AssignmentResponseDto result = assignmentService.createAssignment(expectedAssignment);
+        AssignmentResponseDto result = assignmentService.createAssignment(expected_Learner);
 
         // THEN
         verify(assignmentRepo).save(any(Assignment.class));
-        assertEquals(expectedAssignmentDto.getAssignment(), result.getAssignment());
         assertEquals((AssignmentStatusEnum.PENDING_SUBMISSION.toString()), result.getAssignment().getStatus());
     }
 }

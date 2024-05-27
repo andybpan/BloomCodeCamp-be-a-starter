@@ -28,10 +28,10 @@ public class AssignmentService {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
 
-    // Return assignments based on user & user role type
     public List<Assignment> getAssignmentsByUser(User user) {
         boolean hasCodeReviewerRole = user.getAuthorities().stream()
                 .anyMatch(auth -> AuthorityEnum.ROLE_REVIEWER.name().equals(auth.getAuthority()));
+        // Return assignments based on user & user role type
         if (hasCodeReviewerRole) {
             return assignmentRepo.findByCodeReviewer(user);
         } else {
@@ -44,7 +44,6 @@ public class AssignmentService {
         return new AssignmentResponseDto(retrievedAssignment);
     }
 
-    // check for user role type
     public AssignmentResponseDto updateAssignmentById(Long id, Assignment updatedAssignment){
         Assignment retrievedAssignment = getAssignmentByIdHelper(id);
 
