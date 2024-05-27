@@ -12,5 +12,7 @@ import java.util.Optional;
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     List<Assignment> findByUser(User user);
+    List<Assignment> findByCodeReviewer(User user);
 
+    Assignment save(Assignment assignment);
 }

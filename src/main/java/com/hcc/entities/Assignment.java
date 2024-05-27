@@ -29,7 +29,7 @@ public class Assignment {
     @ManyToOne
     private User user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private User codeReviewer;
 
     public Assignment(String status, int number, String githubUrl, String branch, String reviewVideoUrl, User user) {

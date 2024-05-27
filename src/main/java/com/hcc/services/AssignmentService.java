@@ -36,6 +36,7 @@ public class AssignmentService {
         return new AssignmentResponseDto(retrievedAssignment);
     }
 
+    // check for user role type
     public AssignmentResponseDto updateAssignmentById(Long id, Assignment updatedAssignment){
         Assignment retrievedAssignment = getAssignmentByIdHelper(id);
 
@@ -62,11 +63,13 @@ public class AssignmentService {
     }
 
     public AssignmentResponseDto createAssignment(User user) {
-        Assignment newAssignment = new Assignment();
-        newAssignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
-        newAssignment.setUser(user);
-        assignmentRepo.save(newAssignment);
-        return new AssignmentResponseDto(newAssignment);
+        Assignment assignment = new Assignment();
+        assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.toString());
+        assignment.setUser(user);
+        assignment.setNumber(0);
+        assignmentRepo.save(assignment);
+
+        return new AssignmentResponseDto(assignment);
     }
 
     // Helper Methods
