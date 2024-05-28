@@ -3,6 +3,7 @@ package com.hcc.controllers;
 import com.hcc.dto.AssignmentResponseDto;
 import com.hcc.entities.Assignment;
 import com.hcc.entities.User;
+import com.hcc.enums.AuthorityEnum;
 import com.hcc.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,11 @@ public class AssignmentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AssignmentResponseDto> updateAssignmentById(@AuthenticationPrincipal User user, @PathVariable Long id, @RequestBody Assignment assignment) {
+        if (assignment.getCodeReviewer() == null
+                && user.getAuthorities().stream().anyMatch(auth -> AuthorityEnum.ROLE_REVIEWER.name().equals(auth.getAuthority()))){
+            assignment.setCodeReviewer(user);
+        }
+
         return ResponseEntity.ok(assignmentService.updateAssignmentById(id, assignment));
     }
 
