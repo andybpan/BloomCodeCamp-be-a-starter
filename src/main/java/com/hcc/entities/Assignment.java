@@ -119,4 +119,18 @@ public class Assignment {
     public int hashCode() {
         return Objects.hash(id, status, number, githubUrl, branch, reviewVideoUrl, user, codeReviewer);
     }
+
+    @Override
+    public String toString() {
+        return "Assignment{" +
+                "branch='" + branch + '\'' +
+                ", id=" + id +
+                ", status='" + status + '\'' +
+                ", number=" + number +
+                ", githubUrl='" + githubUrl + '\'' +
+                ", reviewVideoUrl='" + reviewVideoUrl + '\'' +
+                ", user=" + user +
+                ", codeReviewer=" + codeReviewer +
+                '}';
+    }
 }

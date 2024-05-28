@@ -56,8 +56,8 @@ public class AssignmentService {
         retrievedAssignment.setCodeReviewer(updatedAssignment.getCodeReviewer());
 
         // update status
-        AssignmentStatusEnum currentStatus = AssignmentStatusEnum.fromString(retrievedAssignment.getStatus());
-        AssignmentStatusEnum newStatus = AssignmentStatusEnum.fromString(updatedAssignment.getStatus());
+        AssignmentStatusEnum currentStatus = AssignmentStatusEnum.valueOf(retrievedAssignment.getStatus());
+        AssignmentStatusEnum newStatus = AssignmentStatusEnum.valueOf(updatedAssignment.getStatus());
 
         if (isValidStatusTransition(currentStatus, newStatus)) {
             retrievedAssignment.setStatus(newStatus.toString());
