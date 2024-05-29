@@ -1,29 +1,58 @@
 package com.hcc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-/**
- *  Each User account stories the
- */
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "cohort_start_date")
+    @Temporal(TemporalType.DATE)
     private Date cohortStartDate;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Authority> authorities;
 
     public User() {}
 
     public User (LocalDate cohortStartDate, String username, String password) {
-        // this.id = id // ask about id requirements
         this.cohortStartDate = Date.from(cohortStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         this.username = username;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCohortStartDate() {
+        return cohortStartDate;
+    }
+
+    public void setCohortStartDate(Date cohortStartDate) {
+        this.cohortStartDate = cohortStartDate;
     }
 
     @Override
@@ -44,30 +73,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Date getCohortStartDate() {
-        return cohortStartDate;
-    }
-
-    public void setCohortStartDate(Date cohortStartDate) {
-        this.cohortStartDate = cohortStartDate;
+    @Override
+    public Collection<Authority> getAuthorities() {
+        return new ArrayList<>(authorities);
     }
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    @Override
-    public Collection<Authority> getAuthorities() {
-        List<Authority> roles = new ArrayList<>(authorities);
-        return roles;
     }
 
     @Override
@@ -95,11 +107,7 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id
-                && Objects.equals(cohortStartDate, user.cohortStartDate)
-                && Objects.equals(username, user.username)
-                && Objects.equals(password, user.password)
-                && Objects.equals(authorities, user.authorities);
+        return Objects.equals(id, user.id) && Objects.equals(cohortStartDate, user.cohortStartDate) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities);
     }
 
     @Override

@@ -1,19 +1,38 @@
 package com.hcc.entities;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "assignments")
 public class Assignment {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "status")
     private String status;
-    private int number;
+
+    @Column(name = "number")
+    private Integer number;
+
+    @Column(name = "github_url")
     private String githubUrl;
+
+    @Column(name = "branch")
     private String branch;
+
+    @Column(name = "code_review_video_url")
     private String reviewVideoUrl;
+
+    @ManyToOne
     private User user;
+
+    @ManyToOne(optional = true)
     private User codeReviewer;
 
     public Assignment(String status, int number, String githubUrl, String branch, String reviewVideoUrl, User user) {
-        // this.id = id;
         this.status = status;
         this.number = number;
         this.githubUrl = githubUrl;
@@ -24,11 +43,11 @@ public class Assignment {
 
     public Assignment() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,11 +59,11 @@ public class Assignment {
         this.status = status;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -93,11 +112,25 @@ public class Assignment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Assignment that = (Assignment) o;
-        return id == that.id && number == that.number && Objects.equals(status, that.status) && Objects.equals(githubUrl, that.githubUrl) && Objects.equals(branch, that.branch) && Objects.equals(reviewVideoUrl, that.reviewVideoUrl) && Objects.equals(user, that.user) && Objects.equals(codeReviewer, that.codeReviewer);
+        return Objects.equals(id, that.id) && Objects.equals(status, that.status) && Objects.equals(number, that.number) && Objects.equals(githubUrl, that.githubUrl) && Objects.equals(branch, that.branch) && Objects.equals(reviewVideoUrl, that.reviewVideoUrl) && Objects.equals(user, that.user) && Objects.equals(codeReviewer, that.codeReviewer);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, status, number, githubUrl, branch, reviewVideoUrl, user, codeReviewer);
+    }
+
+    @Override
+    public String toString() {
+        return "Assignment{" +
+                "branch='" + branch + '\'' +
+                ", id=" + id +
+                ", status='" + status + '\'' +
+                ", number=" + number +
+                ", githubUrl='" + githubUrl + '\'' +
+                ", reviewVideoUrl='" + reviewVideoUrl + '\'' +
+                ", user=" + user +
+                ", codeReviewer=" + codeReviewer +
+                '}';
     }
 }

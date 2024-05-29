@@ -2,27 +2,36 @@ package com.hcc.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name="authorities")
 public class Authority implements GrantedAuthority {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "authority")
     private String authority;
+
+    @ManyToOne
     private User user;
 
     public Authority() {
     }
 
     public Authority(String authority, User user) {
-        // this.id = id;
         this.authority = authority;
         this.user = user;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,7 +57,7 @@ public class Authority implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Authority authority1 = (Authority) o;
-        return id == authority1.id && Objects.equals(authority, authority1.authority) && Objects.equals(user, authority1.user);
+        return Objects.equals(id, authority1.id) && Objects.equals(authority, authority1.authority) && Objects.equals(user, authority1.user);
     }
 
     @Override
