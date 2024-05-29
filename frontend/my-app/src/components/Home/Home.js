@@ -13,7 +13,6 @@ function Home() {
           Login
         </Link>
         <p className="home-description">
-          {/* Add your text here explaining what users can do */}
           Hello! Login to view your dashboard!
         </p>
       </main>
