@@ -2,9 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Routes, Route, Link } from 'react-router-dom';
-import Home from './components/Home/Home';
+import HomePublic from './components/Home/HomePublic';
+import HomeAuth from './components/Home/HomeAuthenticated';
 import Login from './components/Login/Login';
-import Dashboard from './components/Dashboard/Dashboard';
+import LearnerDashboard from './components/Dashboard/LearnerDashboard';
+import ReviewerDashboard from './components/Dashboard/ReviewerDashboard';
+import LearnerAssignmentView from './components/Assignments/LearnerAssignmentView';
+import ReviewerAssignmentView from './components/Assignments/LearnerAssignmentView';
 
 function App() {
   return (
@@ -12,15 +16,20 @@ function App() {
       <div>
         <nav>
           <ul>
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">HomePage</Link></li>
+            <li><Link to="/HomeAuth">HomeAuthenticated</Link></li>
             <li><Link to="/Login">Login</Link></li>
-            <li><Link to="/Dashboard">Dashboard</Link></li>
+            <li><Link to="/LearnerDashboard">LearnerDashboard</Link></li>
+            <li><Link to="/ReviewerDashboard">ReviewerDashboard</Link></li>
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePublic />} />
+          <Route path="/HomeAuth" element={<HomeAuth />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/LearnerDashboard" element={<LearnerDashboard />} />
+          <Route path="/ReviewerDashboard" element={<ReviewerDashboard />} />
+
         </Routes>
       </div>
     </div>
