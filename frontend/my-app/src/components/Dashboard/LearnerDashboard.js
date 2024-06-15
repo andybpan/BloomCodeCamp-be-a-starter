@@ -3,20 +3,21 @@ import './LearnerDashboard.css';
 
 function Dashboard() {
   return (
-    <div className="Dashboard">
+    <div className="LearnerDashboard">
       <header className="Dashboard-header">
-        <h1>Reviewer's Dashboard</h1>
+        <h1>Learner's Dashboard</h1>
       </header>
       <button className="logout-button">Log Out</button>
+      <button className="logout-button">Create New Assignment</button>
       <main className="Dashboard-main">
-        <section className="container in-review">
-          <h2 className="container-title">In Review</h2>
-        </section>
-        <section className="container submitted-resubmitted">
-          <h2 className="container-title">Submitted & Resubmitted</h2>
+        <section className="container needs-work">
+          <h2 className="container-title">Needs Work</h2>
         </section>
         <section className="container completed">
-          <h2 className="container-title">Completed</h2>
+          <h2 className="container-title">Complete</h2>
+        </section>
+        <section className="container in-review">
+          <h2 className="container-title">In Review</h2>
         </section>
       </main>
       <footer className="Dashboard-footer">
