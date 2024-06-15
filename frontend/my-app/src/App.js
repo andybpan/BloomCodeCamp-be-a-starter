@@ -8,7 +8,7 @@ import Login from './components/Login/Login';
 import LearnerDashboard from './components/Dashboard/LearnerDashboard';
 import ReviewerDashboard from './components/Dashboard/ReviewerDashboard';
 import LearnerAssignmentView from './components/Assignments/LearnerAssignmentView';
-import ReviewerAssignmentView from './components/Assignments/LearnerAssignmentView';
+import ReviewerAssignmentView from './components/Assignments/ReviewerAssignmentView';
 
 function App() {
   return (
