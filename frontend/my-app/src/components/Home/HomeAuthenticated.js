@@ -9,11 +9,16 @@ function Home() {
         Welcome to the Assignment Review App
       </header>
       <main className="home-main">
+        {/*
+          HomeAuthenticated needs to have a dashboard button to link to correct dashboard
+          1. link button to Dashboard
+          2. Create logic to link to correct dashboard - based on token?
+        */}
         <Link to="/Login" className="login-button">
-          Login
+          Dashboard
         </Link>
         <p className="home-description">
-          Hello! Login to view your dashboard!
+          Hello! Click to go to you Dashboard!
         </p>
       </main>
       <footer className="home-footer">
