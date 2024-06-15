@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LearnerAssignmentView.css';
+import './AssignmentView.css';
 
 function LearnerAssignmentView() {
     // State to store assignment data
