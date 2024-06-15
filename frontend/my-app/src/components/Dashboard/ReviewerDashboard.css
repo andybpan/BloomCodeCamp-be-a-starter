@@ -1,0 +1,54 @@
+.Dashboard {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.Dashboard-header {
+  background-color: purple;
+  padding: 1rem;
+  color: white;
+}
+
+.logout-button {
+  align-self: flex-end;
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: purple;
+  color: white;
+  cursor: pointer;
+}
+
+.Dashboard-main {
+  flex: 1;
+  padding: 1rem;
+}
+
+.container {
+  border: 2px solid purple;
+  border-radius: 10px;
+  margin: 3rem 1rem;
+  padding: 2rem 1rem;
+  position: relative;
+  height: 150px;
+}
+
+.container-title {
+  position: absolute;
+  top: -1.2rem;
+  left: 1rem;
+  background-color: white;
+  padding: 0 0.5rem;
+  color: purple;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.Dashboard-footer {
+  background-color: purple;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
