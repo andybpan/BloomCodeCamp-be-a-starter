@@ -16,11 +16,13 @@ function App() {
       <div>
         <nav>
           <ul>
-            <li><Link to="/">HomePage</Link></li>
-            <li><Link to="/HomeAuth">HomeAuthenticated</Link></li>
+            <li><Link to="/">Home Page</Link></li>
+            <li><Link to="/HomeAuth">Home Authenticated</Link></li>
             <li><Link to="/Login">Login</Link></li>
-            <li><Link to="/LearnerDashboard">LearnerDashboard</Link></li>
-            <li><Link to="/ReviewerDashboard">ReviewerDashboard</Link></li>
+            <li><Link to="/LearnerDashboard">Learner Dashboard</Link></li>
+            <li><Link to="/ReviewerDashboard">Reviewer Dashboard</Link></li>
+            <li><Link to="/LearnerAssignmentView">Learner Assignment View</Link></li>
+            <li><Link to="/ReviewerAssignmentView">Reviewer Assignment View</Link></li>
           </ul>
         </nav>
         <Routes>
@@ -29,7 +31,8 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/LearnerDashboard" element={<LearnerDashboard />} />
           <Route path="/ReviewerDashboard" element={<ReviewerDashboard />} />
-
+          <Route path="/LearnerAssignmentView" element={<LearnerAssignmentView />} />
+          <Route path="/ReviewerAssignmentView" element={<ReviewerAssignmentView />} />
         </Routes>
       </div>
     </div>
