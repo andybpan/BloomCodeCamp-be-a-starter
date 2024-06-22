@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
 import './AssignmentView.css';
+
+// import { Routes, Route, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function LearnerAssignmentView() {
     // State to store assignment data
@@ -7,6 +11,8 @@ function LearnerAssignmentView() {
     const [assignmentStatus, setAssignmentStatus] = useState('');
     const [githubUrl, setGithubUrl] = useState('');
     const [branchName, setBranchName] = useState('');
+
+    const navigate = useNavigate();
 
     // Handle changes to inputs
     const handleNumberChange = (event) => {
@@ -30,12 +36,13 @@ function LearnerAssignmentView() {
         event.preventDefault();
         console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
         // Add logic to process submission here
+        navigate('/LearnerDashboard')
     };
 
-    // Placeholder function for navigating back to the dashboard
+    // Added navigation logic to go back to Dashboard
     const handleBack = () => {
-        console.log('Navigating back to the dashboard');
-        // Add navigation logic here
+        console.log("Navigating back to Learner's dashboard");
+        navigate('/LearnerDashboard')
     };
 
     return (
