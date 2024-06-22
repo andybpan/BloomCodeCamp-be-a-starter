@@ -1,17 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function Home() {
+
+  const navigateToLogin = useNavigate();
+
+  const handleLogin = () => {
+    navigateToLogin('/Login');
+  };
+
   return (
     <div className="home-container">
       <header className="home-header">
         Welcome to the Assignment Review App
       </header>
       <main className="home-main">
-        <Link to="/Login" className="login-button">
+        <button onClick={handleLogin} className="login-button">
           Login
-        </Link>
+        </button>
         <p className="home-description">
           Hello! Login to view your dashboard!
         </p>
