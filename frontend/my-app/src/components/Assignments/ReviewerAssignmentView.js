@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './AssignmentView.css';
+import { useNavigate } from 'react-router-dom';
 
 function ReviewerAssignmentView() {
     const [assignmentNumber, setAssignmentNumber] = useState('');
@@ -9,25 +10,36 @@ function ReviewerAssignmentView() {
     const [branchName, setBranchName] = useState('main'); // Example branch name
     const [reviewVideoUrl, setReviewVideoUrl] = useState('');
 
+    const dashboardNavigate = useNavigate();
+
     const handleReviewVideoUrlChange = (event) => {
         setReviewVideoUrl(event.target.value);
     };
+
+    // need to add a method to retrieve the data?
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName, reviewVideoUrl });
         // Add logic to process submission here
+
+        // navigation logic
+        dashboardNavigate('/ReviewerDashboard')
     };
 
     const handleReject = () => {
         console.log('Assignment rejected');
         setAssignmentStatus('Rejected'); // Change status to rejected
         // Additional logic for rejection can be implemented here
+
+        // navigation logic
+        dashboardNavigate('/ReviewerDashboard')
     };
 
     const handleBack = () => {
-        console.log('Navigating back to the dashboard');
-        // Add navigation logic here
+        console.log("Navigating back to Reviewer's dashboard");
+        dashboardNavigate('/ReviewerDashboard')
     };
 
     return (
