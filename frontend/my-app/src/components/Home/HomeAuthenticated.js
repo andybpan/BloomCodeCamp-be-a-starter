@@ -1,27 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Home.css';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import './Home.css';
 
 function Home() {
   const navigateToDashboard = useNavigate();
-  const isLearner = true; // test data
 
-  // steps
-  // analyze the token
-  // check if learner or reviewer, then pass result
-  // navigate to the correct page
-  // populate the page with the correct info - where does that go?
-  // design wise, population logic should go on that page?
-  const handleDashboard = () => {
-    // insert token logic
-
-    // temporary navigation logic
-    if (isLearner) {
-      navigateToDashboard('/LearnerDashboard');
-    } else {
-      navigateToDashboard('/ReviewerDashboard');
+   // Function decodes JWT token and determine the user's role
+  const getRoleFromToken = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwt_decode(token);
+      return decoded.authority; // check if this needs to be adjusted based on decode's field
     }
+    return null;
   };
 
   return (
