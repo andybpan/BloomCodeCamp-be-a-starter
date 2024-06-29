@@ -17,7 +17,7 @@ function App() {
         <nav>
           <ul>
             <li><Link to="/">Home Page</Link></li>
-            <li><Link to="/HomeAuth">Home Authenticated</Link></li>
+            <li><Link to="/Home">Home Authenticated</Link></li>
             <li><Link to="/Login">Login</Link></li>
             <li><Link to="/LearnerDashboard">Learner Dashboard</Link></li>
             <li><Link to="/ReviewerDashboard">Reviewer Dashboard</Link></li>
@@ -27,7 +27,7 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<HomePublic />} />
-          <Route path="/HomeAuth" element={<HomeAuth />} />
+          <Route path="/Home" element={<HomeAuth />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/LearnerDashboard" element={<LearnerDashboard />} />
           <Route path="/ReviewerDashboard" element={<ReviewerDashboard />} />
