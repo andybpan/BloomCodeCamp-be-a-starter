@@ -4,14 +4,30 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
-
   const navigate = useNavigate();
 
-  const createNewAssignment = () => {
-    // create Assignment Logic
+  const createNewAssignment = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: 'current_user',  // backend assigns the user but do we need to pass in the name
+        }),
+      });
 
-    // navigate to LearnerAssignmentView
-    navigate('/LearnerAssignmentView')
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      navigate('/LearnerAssignmentView', { state: { assignment: data } });
+
+    } catch (error) {
+      console.error('Error creating new assignment:', error);
+    }
   };
 
   return (
@@ -28,7 +44,7 @@ function Dashboard() {
           <h2 className="container-title">Needs Work</h2>
         </section>
         <section className="container completed">
-          <h2 className="container-title">Complete</h2>
+          <h2 className="container-title">Completed</h2>
         </section>
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
