@@ -22,7 +22,7 @@ function Login() {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token); // Store the token
-        navigate('/Dashboard'); // Navigate to the dashboard
+        navigate('/Home'); // Navigate to the dashboard
       } else {
         alert(data.message); // Show error message from server
       }
