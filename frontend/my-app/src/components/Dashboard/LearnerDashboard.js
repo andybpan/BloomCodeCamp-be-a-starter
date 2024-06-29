@@ -11,11 +11,8 @@ function Dashboard() {
       const response = await fetch('http://localhost:8080/api/assignments', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: 'current_user',  // backend assigns the user but do we need to pass in the name
-        }),
+          'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+        }
       });
 
       if (!response.ok) {
@@ -23,6 +20,11 @@ function Dashboard() {
       }
 
       const data = await response.json();
+      // 1. need an icon or element to be created to be displayed in the inReview section
+      // 2. need logic to open the LAV, insert the data
+      // 3. the LAV then needs logic to PUT/update the logic
+      // 4. if submit - the icon would also need to move
+      // 5. otherwise, the user just backs out and the icon stays in in-review
       navigate('/LearnerAssignmentView', { state: { assignment: data } });
 
     } catch (error) {
