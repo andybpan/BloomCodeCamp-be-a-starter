@@ -60,28 +60,6 @@ function Dashboard() {
       .catch(error => console.error('Error creating assignment', error));
   }
 
-//  const createNewAssignment = async () => {
-//    try {
-//      const response = await fetch('http://localhost:8080/api/assignments', {
-//        method: 'POST',
-//        headers: {
-//          'Authorization': `Bearer ${token}` // Include the token in the Authorization header
-//        }
-//      });
-//
-//      if (!response.ok) {
-//        throw new Error(`HTTP error! status: ${response.status}`);
-//      }
-//      const data = await response.json();
-//      console.log('Assignment created successfully:', data);
-//
-//      navigate('/LearnerAssignmentView', { state: { assignment: data } });
-//
-//    } catch (error) {
-//      console.error('Error creating new assignment:', error);
-//    }
-//  };
-
   return (
     <div className="LearnerDashboard">
       <header className="Dashboard-header">
