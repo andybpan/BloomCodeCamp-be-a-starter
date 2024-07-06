@@ -39,11 +39,52 @@ function Dashboard() {
       .catch(error => console.error('Error fetching assignments', error));
   }, []);
 
+  // Update - assignment status
+  // note - the assignment will be updated with more information - for now well just do status
+  function updateAssignmentStatus(assignmentId, newStatus) {
+    // insert request data - like github link, assignment type, etc..
+    axios.put(`/api/assignments/${assignmentId}`, { status: newStatus })
+      .then(response => {
+        const updatedAssignment = response.data; // Assuming the response includes the updated assignment
+        setAssignments(prevAssignments => {
+          // Creating new objects for each category to avoid direct mutation
+          const newNeedsWork = [...prevAssignments.needsWork.filter(a => a.id !== assignmentId)];
+          const newCompleted = [...prevAssignments.completed.filter(a => a.id !== assignmentId)];
+          const newInReview = [...prevAssignments.inReview.filter(a => a.id !== assignmentId)];
+
+          // Adding the updated assignment to the appropriate section based on its new status
+          switch (newStatus) {
+            case 'Needs Work':
+              newNeedsWork.push(updatedAssignment);
+              break;
+            case 'Completed':
+              newCompleted.push(updatedAssignment);
+              break;
+            case 'In Review':
+              newInReview.push(updatedAssignment);
+              break;
+            default:
+              // Handle any unexpected status
+              break;
+          }
+
+          // Return the new state object
+          return {
+            needsWork: newNeedsWork,
+            completed: newCompleted,
+            inReview: newInReview
+          };
+        });
+      })
+      .catch(error => {
+        console.error('Error updating assignment status', error);
+      });
+  }
+  // side note there's a way to "loop" to condense the code, but i'm not familiar with it.
+
   // Helper method? - build and display all assignments in each section
 
   // Helper method2? - builds the icon template?
-
-  // Question - if an assignment is updated, and status changes, then the icon needs to be moved...
 
   // Create New Assignment Request - retrieves request data and opens the LAV
   function createAssignment() {
