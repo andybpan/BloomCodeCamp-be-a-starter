@@ -3,9 +3,16 @@ import './LearnerDashboard.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// 1. need an icon or element to be created to be displayed in the inReview section
+  // 2. need logic to open the LAV, insert the data
+  // 3. the LAV then needs logic to PUT/update the logic
+  // 4. if submit - the icon would also need to move
+  // 5. otherwise, the user just backs out and the icon stays in in-review
 function Dashboard() {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
+  // Create New Assignment Request - retrieves request data and opens the LAV
   const createNewAssignment = async () => {
     try {
       const response = await fetch('http://localhost:8080/api/assignments', {
@@ -18,13 +25,9 @@ function Dashboard() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
-      // 1. need an icon or element to be created to be displayed in the inReview section
-      // 2. need logic to open the LAV, insert the data
-      // 3. the LAV then needs logic to PUT/update the logic
-      // 4. if submit - the icon would also need to move
-      // 5. otherwise, the user just backs out and the icon stays in in-review
+      console.log('Assignment created successfully:', data);
+
       navigate('/LearnerAssignmentView', { state: { assignment: data } });
 
     } catch (error) {
@@ -38,7 +41,7 @@ function Dashboard() {
         <h1>Learner's Dashboard</h1>
       </header>
       <div className="button-container">
-        <button className="button-style">Create New Assignment</button>
+        <button className="button-style" onClick={createNewAssignment} >Create New Assignment</button>
         <button className="button-style">Log Out</button>
       </div>
       <main className="Dashboard-main">
