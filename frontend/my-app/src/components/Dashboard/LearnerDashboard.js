@@ -21,7 +21,7 @@ function Dashboard() {
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
         response.data.forEach(assignment => {
           switch(assignment.status) {
-            case 'Needs Work':
+            case 'Needs Work': // check status labels
               fetchedAssignments.needsWork.push(assignment);
               break;
             case 'Completed':
@@ -31,7 +31,7 @@ function Dashboard() {
               fetchedAssignments.inReview.push(assignment);
               break;
             default:
-              // Handle unexpected status
+              // Handle unexpected status - handle later
           }
         });
         setAssignments(fetchedAssignments);
@@ -45,29 +45,42 @@ function Dashboard() {
 
   // Question - if an assignment is updated, and status changes, then the icon needs to be moved...
 
-
   // Create New Assignment Request - retrieves request data and opens the LAV
-  const createNewAssignment = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/assignments', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}` // Include the token in the Authorization header
-        }
-      });
+  function createAssignment() {
+    axios.post('/api/assignments') // POST request without data
+      .then(response => {
+        const newAssignment = response.data;
+        setAssignments(prev => ({
+          ...prev,
+          needsWork: [...prev.needsWork, newAssignment]  // Add the new assignment to the 'needsWork' array
+        }));
+        console.log('Assignment created successfully:', newAssignment);  // Log to the console - maybe just log id?
+        navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
+      })
+      .catch(error => console.error('Error creating assignment', error));
+  }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('Assignment created successfully:', data);
-
-      navigate('/LearnerAssignmentView', { state: { assignment: data } });
-
-    } catch (error) {
-      console.error('Error creating new assignment:', error);
-    }
-  };
+//  const createNewAssignment = async () => {
+//    try {
+//      const response = await fetch('http://localhost:8080/api/assignments', {
+//        method: 'POST',
+//        headers: {
+//          'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+//        }
+//      });
+//
+//      if (!response.ok) {
+//        throw new Error(`HTTP error! status: ${response.status}`);
+//      }
+//      const data = await response.json();
+//      console.log('Assignment created successfully:', data);
+//
+//      navigate('/LearnerAssignmentView', { state: { assignment: data } });
+//
+//    } catch (error) {
+//      console.error('Error creating new assignment:', error);
+//    }
+//  };
 
   return (
     <div className="LearnerDashboard">
