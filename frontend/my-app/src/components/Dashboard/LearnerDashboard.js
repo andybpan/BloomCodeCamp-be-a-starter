@@ -100,6 +100,20 @@ function Dashboard() {
       .catch(error => console.error('Error creating assignment', error));
   }
 
+  // Use Axios interceptor - attache Authentication Bearer Token to all requests:
+  axios.interceptors.request.use(
+    config => {
+      const token = localStorage.getItem('token'); // retrieve token from localStorage
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
+    }
+  );
+
   return (
     <div className="LearnerDashboard">
       <header className="Dashboard-header">
