@@ -2,19 +2,29 @@ import React, { useState, useEffect } from 'react';
 import './LearnerDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AssignmentCard from './AssignmentCard';
 
 // 1. Retrieve and display each assignment in their corresponding status section
-  // 2. need logic to open each assignment in the LAV, insert the data
-  // 3. the LAV then needs logic to PUT/update the logic
-  // 4. if submit - the icon would also need to move
-  // 5. otherwise, the user just backs out and the icon stays in in-review
+  // display style and css needs work
+// 2. need logic to open each assignment in the LAV, insert the data
+  // need to update assignmentCard navigation, retrieval and passing data
+// 3. the LAV then needs logic to PUT/update the logic
+  // check if useEffect will trigger
+// 4. if submit - the icon would also need to move
+  // already added logic to handle where the element goes
+  // need to update to simple assignment
+// 5. otherwise, the user just backs out and the icon stays in in-review
+  // check to clear information from LAV js
+
+const mockAssignments = [
+  { id: 1, title: 'Assignment 1', status: 'Needs Work' },
+  { id: 2, title: 'Assignment 2', status: 'Completed' },
+  { id: 3, title: 'Assignment 3', status: 'In Review' }
+];
+
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
-
-  function createAssignmentIcon(assignment) {
-    return <AssignmentIcon key={assignment.id} assignment={assignment} />;
-  }
 
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
@@ -155,6 +165,12 @@ function Dashboard() {
             <AssignmentCard key={assignment.id} assignment={assignment} />
           ))}
         </section>
+        {/* <section className="container Mock">
+          <h2 className="container-title">In Review</h2>
+          {mockAssignments.map(assignment => (
+            <AssignmentCard key={assignment.id} assignment={assignment} />
+          ))}
+        </section> */}
       </main>
       <footer className="Dashboard-footer">
         <p>Hello :D Learner!</p>

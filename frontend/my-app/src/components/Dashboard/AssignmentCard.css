@@ -1,0 +1,8 @@
+.cardStyle {
+  padding: '20px';
+  margin: '10px';
+  border: '1px solid #ccc';
+  borderRadius: '5px';
+  cursor: 'pointer';
+}
+
