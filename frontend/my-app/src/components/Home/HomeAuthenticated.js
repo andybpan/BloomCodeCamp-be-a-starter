@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import './Home.css';
+import { jwtDecode } from 'jwt-decode';
 
 function Home() {
   const navigateToDashboard = useNavigate();
@@ -10,7 +9,7 @@ function Home() {
   const getRoleFromToken = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const decoded = jwt_decode(token);
+      const decoded = jwtDecode(token);
       return decoded.authority; // check if this needs to be adjusted based on decode's field
     }
     return null;
@@ -48,7 +47,6 @@ function Home() {
       <footer className="home-footer">
       </footer>
     </div>
-  );
   );
 }
 

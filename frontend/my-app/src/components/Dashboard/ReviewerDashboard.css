@@ -11,7 +11,13 @@
   color: white;
 }
 
-.logout-button {
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 2rem;
+}
+
+.button-style{
   align-self: flex-end;
   margin: 1rem;
   padding: 0.5rem 1rem;
@@ -19,6 +25,15 @@
   background-color: purple;
   color: white;
   cursor: pointer;
+  font-size: 1rem;
+}
+
+.button-style:hover {
+    opacity: 0.75;
+    font-weight: bold;
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
 }
 
 .Dashboard-main {

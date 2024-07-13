@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './LearnerDashboard.css';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -107,7 +106,7 @@ function Dashboard() {
         <h1>Learner's Dashboard</h1>
       </header>
       <div className="button-container">
-        <button className="button-style" onClick={createNewAssignment} >Create New Assignment</button>
+        <button className="button-style" onClick={createAssignment} >Create New Assignment</button>
         <button className="button-style">Log Out</button>
       </div>
       <main className="Dashboard-main">
@@ -122,7 +121,7 @@ function Dashboard() {
         </section>
       </main>
       <footer className="Dashboard-footer">
-        <p>Hello :D</p>
+        <p>Hello :D Learner!</p>
       </footer>
     </div>
   );

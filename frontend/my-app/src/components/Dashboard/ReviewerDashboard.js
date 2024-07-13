@@ -7,7 +7,9 @@ function Dashboard() {
       <header className="Dashboard-header">
         <h1>Reviewer's Dashboard</h1>
       </header>
-      <button className="logout-button">Log Out</button>
+      <div className="button-container">
+        <button className="button-style">Log Out</button>
+      </div>
       <main className="Dashboard-main">
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
@@ -20,7 +22,7 @@ function Dashboard() {
         </section>
       </main>
       <footer className="Dashboard-footer">
-        <p>Hello :D</p>
+        <p>Hello Reviewer!</p>
       </footer>
     </div>
   );
