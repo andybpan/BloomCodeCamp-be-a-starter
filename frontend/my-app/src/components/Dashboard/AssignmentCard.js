@@ -8,7 +8,9 @@ function AssignmentCard({ assignment }) {
 
   // Navigate to a detailed view of the assignment using its ID
   const handleClick = () => {
-    navigate(`/assignment/${assignment.id}`);
+    // navigate(`/learnerAssignmentView/${assignment.id}`);
+    // need to update LAV to handle the logic
+    navigate(`/learnerAssignmentView`);
   };
 
   // Note: the actual assignment object does not have a title
