@@ -3,8 +3,8 @@ import './LearnerDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// 1. need an icon or element to be created to be displayed in the inReview section
-  // 2. need logic to open the LAV, insert the data
+// 1. Retrieve and display each assignment in their corresponding status section
+  // 2. need logic to open each assignment in the LAV, insert the data
   // 3. the LAV then needs logic to PUT/update the logic
   // 4. if submit - the icon would also need to move
   // 5. otherwise, the user just backs out and the icon stays in in-review
@@ -12,15 +12,25 @@ function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
 
+  function createAssignmentIcon(assignment) {
+    return <AssignmentIcon key={assignment.id} assignment={assignment} />;
+  }
+
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
   useEffect(() => {
-    axios.get('/api/assignments') // Adjust the API - i do not remember what the api is called lol
+    axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
       .then(response => {
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
-        response.data.forEach(assignment => {
+         response.data.forEach(assignment => {
+            const assignmentSummary = {
+              id: assignment.id,
+              status: assignment.status
+            };
+
           switch(assignment.status) {
-            case 'Needs Work': // check status labels
+            // double check status labels
+            case 'Needs Work':
               fetchedAssignments.needsWork.push(assignment);
               break;
             case 'Completed':
@@ -30,10 +40,13 @@ function Dashboard() {
               fetchedAssignments.inReview.push(assignment);
               break;
             default:
-              // Handle unexpected status - handle later
+              // Handle unexpected status - log it
+              console.log('Unhandled status:', assignment.status);
           }
         });
+
         setAssignments(fetchedAssignments);
+        console.log('Successful user assignment retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignments', error));
   }, []);
@@ -79,11 +92,10 @@ function Dashboard() {
         console.error('Error updating assignment status', error);
       });
   }
-  // side note there's a way to "loop" to condense the code, but i'm not familiar with it.
 
-  // Helper method? - build and display all assignments in each section
 
   // Helper method2? - builds the icon template?
+  // just stores the id and status - will be send over the LAV and used to retrieve the data?
 
   // Create New Assignment Request - retrieves request data and opens the LAV
   function createAssignment() {
@@ -94,6 +106,7 @@ function Dashboard() {
           ...prev,
           needsWork: [...prev.needsWork, newAssignment]  // Add the new assignment to the 'needsWork' array
         }));
+
         console.log('Assignment created successfully:', newAssignment);  // Log to the console - maybe just log id?
         navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
       })
@@ -126,12 +139,21 @@ function Dashboard() {
       <main className="Dashboard-main">
         <section className="container needs-work">
           <h2 className="container-title">Needs Work</h2>
+          {assignments.needsWork.map(assignment => (
+            <AssignmentCard key={assignment.id} assignment={assignment} />
+          ))}
         </section>
         <section className="container completed">
           <h2 className="container-title">Completed</h2>
+          {assignments.completed.map(assignment => (
+            <AssignmentCard key={assignment.id} assignment={assignment} />
+          ))}
         </section>
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
+          {assignments.inReview.map(assignment => (
+            <AssignmentCard key={assignment.id} assignment={assignment} />
+          ))}
         </section>
       </main>
       <footer className="Dashboard-footer">
