@@ -52,10 +52,11 @@
   min-height: 200px;
   overflow: auto;
 }
+/* Due to overflow from the container the title is also being moved - need to figure out the design*/
 
 .container-title {
   position: absolute;
-  top: -1.2rem;
+  top: -2.2rem;
   left: 1rem;
   background-color: white;
   padding: 0 0.5rem;

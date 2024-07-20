@@ -66,7 +66,7 @@ function Dashboard() {
         });
 
         setAssignments(fetchedAssignments);
-        console.log('Successful user assignment retrieval and loading');
+        console.log('Successful user assignments retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignments', error));
   }, []);
