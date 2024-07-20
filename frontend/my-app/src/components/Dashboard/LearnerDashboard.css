@@ -47,7 +47,7 @@
   margin: 3rem 1rem;
   padding: 2rem 1rem;
   position: relative;
-  height: 150px;
+  min-height: 150px;
 }
 
 .container-title {
@@ -59,6 +59,12 @@
   color: purple;
   font-weight: bold;
   border-radius: 10px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .Dashboard-footer {
