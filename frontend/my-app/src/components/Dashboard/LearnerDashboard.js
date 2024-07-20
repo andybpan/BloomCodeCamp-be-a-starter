@@ -41,22 +41,23 @@ function Dashboard() {
     axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
       .then(response => {
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
-         response.data.forEach(assignment => {
-            const assignmentSummary = {
-              id: assignment.id,
-              status: assignment.status
-            };
+        response.data.forEach(assignment => {
+          const assignmentSummary = {
+            id: assignment.id,
+            status: assignment.status
+          };
 
+          // double check status labels
+          // stores assignment summaries
           switch(assignment.status) {
-            // double check status labels
             case 'Needs Work':
-              fetchedAssignments.needsWork.push(assignment);
+              fetchedAssignments.needsWork.push(assignmentSummary);
               break;
             case 'Completed':
-              fetchedAssignments.completed.push(assignment);
+              fetchedAssignments.completed.push(assignmentSummary);
               break;
             case 'In Review':
-              fetchedAssignments.inReview.push(assignment);
+              fetchedAssignments.inReview.push(assignmentSummary);
               break;
             default:
               // Handle unexpected status - log it
@@ -70,8 +71,10 @@ function Dashboard() {
       .catch(error => console.error('Error fetching assignments', error));
   }, []);
 
-  // Update - assignment status
-  // note - the assignment will be updated with more information - for now well just do status
+  // Update: assignment status
+  // Note: Assignment will be updated with more attributes / info
+  // TO DO: retrieve attributes and store into assignment item to put
+  // Right now: stores the new status to the corresponding assignment ID for layout
   function updateAssignmentStatus(assignmentId, newStatus) {
     // insert request data - like github link, assignment type, etc..
     axios.put(`/api/assignments/${assignmentId}`, { status: newStatus })
@@ -113,7 +116,9 @@ function Dashboard() {
   }
 
 
-  // Helper method2? - builds the icon template?
+  // The DOM will map and display the object
+  // The real Question is - how do we get the new item to be displayed?
+  // add it to the list and in back ground let it update?
   // just stores the id and status - will be send over the LAV and used to retrieve the data?
 
   // Create New Assignment Request - retrieves request data and opens the LAV
