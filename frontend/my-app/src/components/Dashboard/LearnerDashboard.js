@@ -181,7 +181,7 @@ function Dashboard() {
           </div>
         </section>
         <section className="container Mock">
-          <h2 className="container-title">In Review</h2>
+          <h2 className="container-title">Mock Up</h2>
           <div className="cards-container">
             {mockAssignments.map(assignment => (
               <AssignmentCard key={assignment.id} assignment={assignment} />
@@ -189,7 +189,7 @@ function Dashboard() {
           </div>
         </section>
         {/* <section className="container Mock">
-          <h2 className="container-title">In Review</h2>
+          <h2 className="container-title">Mock Up</h2>
           <div className="cards-container">
             {mockAssignments.map(assignment => (
               <AssignmentCard key={assignment.id} assignment={assignment} />

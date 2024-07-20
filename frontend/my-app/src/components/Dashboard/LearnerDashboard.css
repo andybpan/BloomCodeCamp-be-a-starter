@@ -42,12 +42,15 @@
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   border: 2px solid purple;
   border-radius: 10px;
   margin: 3rem 1rem;
   padding: 2rem 1rem;
   position: relative;
-  min-height: 150px;
+  min-height: 200px;
+  overflow: auto;
 }
 
 .container-title {
