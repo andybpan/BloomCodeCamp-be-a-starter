@@ -5,3 +5,7 @@
   margin: 10px;
   cursor: pointer;
 }
+
+.cardStyle:hover {
+  border-width: 3px;
+}
