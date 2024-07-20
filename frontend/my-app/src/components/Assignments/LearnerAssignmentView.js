@@ -1,18 +1,28 @@
+import React, {useState, useEffect } from 'react';
 import './AssignmentView.css';
-
-// import { Routes, Route, Link } from 'react-router-dom';
-import { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import { Routes, Route, Link } from 'react-router-dom';
 
+function LearnerAssignmentView({ assignment }) {
+  // State to store assignment data
+  const [assignmentNumber, setAssignmentNumber] = useState('');
+  const [assignmentStatus, setAssignmentStatus] = useState('');
+  const [githubUrl, setGithubUrl] = useState('');
+  const [branchName, setBranchName] = useState('');
 
-function LearnerAssignmentView() {
-    // State to store assignment data
-    const [assignmentNumber, setAssignmentNumber] = useState('');
-    const [assignmentStatus, setAssignmentStatus] = useState('');
-    const [githubUrl, setGithubUrl] = useState('');
-    const [branchName, setBranchName] = useState('');
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+    // retrieve the assignment based on id -
+    useEffect(() => {
+      axios.get('/api/assignments/{assignment.id}') // Adjust the API
+        .then(response => {
+
+          // use assignment to display to dom
+          console.log('Successful user assignment retrieval and loading');
+        })
+        .catch(error => console.error('Error fetching assignment', error));
+    }, []);
 
     // Handle changes to inputs
     const handleNumberChange = (event) => {

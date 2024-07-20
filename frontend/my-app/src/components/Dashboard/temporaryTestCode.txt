@@ -1,0 +1,31 @@
+// Mock Display Test
+// The Following is test code to check that the assignments will be stored and displayed
+// The currently store and display the mock data
+// Will create unit tests later for axios
+
+const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
+mockAssignments.forEach(assignment => {
+  const assignmentSummary = {
+    id: assignment.id,
+    status: assignment.status,
+    title: assignment.title
+  };
+
+  switch(assignment.status) {
+    case 'Needs Work':
+      fetchedAssignments.needsWork.push(assignmentSummary);
+      break;
+    case 'Completed':
+      fetchedAssignments.completed.push(assignmentSummary);
+      break;
+    case 'In Review':
+      fetchedAssignments.inReview.push(assignmentSummary);
+      break;
+    default:
+      // Handle unexpected status - log it
+      console.log('Unhandled status:', assignment.status);
+  }
+});
+
+setAssignments(fetchedAssignments);
+console.log('Successful user assignment retrieval and loading');
