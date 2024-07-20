@@ -19,7 +19,16 @@ import AssignmentCard from './AssignmentCard';
 const mockAssignments = [
   { id: 1, title: 'Assignment 1', status: 'Needs Work' },
   { id: 2, title: 'Assignment 2', status: 'Completed' },
-  { id: 3, title: 'Assignment 3', status: 'In Review' }
+  { id: 3, title: 'Assignment 3', status: 'In Review' },
+  { id: 4, title: 'Assignment 4', status: 'Needs Work' },
+  { id: 5, title: 'Assignment 5', status: 'Completed' },
+  { id: 6, title: 'Assignment 6', status: 'In Review' },
+  { id: 7, title: 'Assignment 7', status: 'Needs Work' },
+  { id: 8, title: 'Assignment 8', status: 'Completed' },
+  { id: 9, title: 'Assignment 9', status: 'In Review' },
+  { id: 10, title: 'Assignment 10', status: 'Needs Work' },
+  { id: 11, title: 'Assignment 11', status: 'Completed' },
+  { id: 12, title: 'Assignment 12', status: 'In Review' }
 ];
 
 function Dashboard() {
@@ -149,27 +158,43 @@ function Dashboard() {
       <main className="Dashboard-main">
         <section className="container needs-work">
           <h2 className="container-title">Needs Work</h2>
-          {assignments.needsWork.map(assignment => (
-            <AssignmentCard key={assignment.id} assignment={assignment} />
-          ))}
+          <div className="cards-container">
+            {assignments.needsWork.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
         <section className="container completed">
           <h2 className="container-title">Completed</h2>
-          {assignments.completed.map(assignment => (
-            <AssignmentCard key={assignment.id} assignment={assignment} />
-          ))}
+          <div className="cards-container">
+            {assignments.completed.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
-          {assignments.inReview.map(assignment => (
-            <AssignmentCard key={assignment.id} assignment={assignment} />
-          ))}
+          <div className="cards-container">
+            {assignments.inReview.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
+        </section>
+        <section className="container Mock">
+          <h2 className="container-title">In Review</h2>
+          <div className="cards-container">
+            {mockAssignments.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
         {/* <section className="container Mock">
           <h2 className="container-title">In Review</h2>
-          {mockAssignments.map(assignment => (
-            <AssignmentCard key={assignment.id} assignment={assignment} />
-          ))}
+          <div className="cards-container">
+            {mockAssignments.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section> */}
       </main>
       <footer className="Dashboard-footer">

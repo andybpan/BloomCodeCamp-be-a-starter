@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AssignmentCard.css';
 
-// escape to java in order to access assignment properties or values
+// escape to javascript in order to access assignment attributes
 function AssignmentCard({ assignment }) {
   const navigate = useNavigate();
 
