@@ -1,45 +1,47 @@
-import React, {useState, useEffect } from 'react';
-import './AssignmentView.css';
+import React, {useEffect, useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-// import { Routes, Route, Link } from 'react-router-dom';
+import './AssignmentView.css';
 
 function LearnerAssignmentView({ assignment }) {
   // State to store assignment data
-  const [assignmentNumber, setAssignmentNumber] = useState('');
-  const [assignmentStatus, setAssignmentStatus] = useState('');
-  const [githubUrl, setGithubUrl] = useState('');
-  const [branchName, setBranchName] = useState('');
+  const { id } = useParams();
+  const [assignment, setAssignment] = useState(null);
+
+//  const [assignmentNumber, setAssignmentNumber] = useState('');
+//  const [assignmentStatus, setAssignmentStatus] = useState('');
+//  const [githubUrl, setGithubUrl] = useState('');
+//  const [branchName, setBranchName] = useState('');
 
   const navigate = useNavigate();
 
-    // retrieve the assignment based on id -
+    // Retrieve Assignment Based on Id
     useEffect(() => {
-      axios.get('/api/assignments/{assignment.id}') // Adjust the API
+      axios.get(`/api/assignments/${id}`) // Adjust the API
         .then(response => {
 
-          // use assignment to display to dom
+          setAssignment(response.data);
           console.log('Successful user assignment retrieval and loading');
         })
         .catch(error => console.error('Error fetching assignment', error));
-    }, []);
+    }, [id]);
 
-    // Handle changes to inputs
-    const handleNumberChange = (event) => {
-        setAssignmentNumber(event.target.value);
-    };
-
-    const handleStatusChange = (event) => {
-        setAssignmentStatus(event.target.value);
-    };
-
-    const handleGithubUrlChange = (event) => {
-        setGithubUrl(event.target.value);
-    };
-
-    const handleBranchChange = (event) => {
-        setBranchName(event.target.value);
-    };
+    // Handle changes to inputs - set values
+//    const handleNumberChange = (event) => {
+//        setAssignmentNumber(event.target.value);
+//    };
+//
+//    const handleStatusChange = (event) => {
+//        setAssignmentStatus(event.target.value);
+//    };
+//
+//    const handleGithubUrlChange = (event) => {
+//        setGithubUrl(event.target.value);
+//    };
+//
+//    const handleBranchChange = (event) => {
+//        setBranchName(event.target.value);
+//    };
 
     // Placeholder function for form submission
     const handleSubmit = (event) => {
