@@ -20,6 +20,7 @@ function AssignmentCard({ assignment }) {
     <div class="cardStyle" onClick={handleClick}>
       <h3>{assignment.title || "No Title"}</h3> {/* Display the title or a placeholder */}
       <p>Status: {assignment.status}</p>
+      <p>Number: {assignment.number}</p>
     </div>
   );
 }
