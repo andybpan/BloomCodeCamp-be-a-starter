@@ -18,50 +18,33 @@ function LearnerAssignmentView({ assignment }) {
     branchName: '',
   });
 
-    // Retrieve AssignmentDTO Based on Id
-    useEffect(() => {
-      axios.get(`/api/assignments/${id}`) // Adjust the API
-        .then(response => {
+  // Retrieve AssignmentDTO Based on Id
+  useEffect(() => {
+    axios.get(`/api/assignments/${id}`) // Adjust the API
+      .then(response => {
 
-          setAssignment(response.assignment);
-          setStatusList(response.statusList);
-          setNumberList(response.numberList);
+        setAssignment(response.assignment);
+        setStatusList(response.statusList);
+        setNumberList(response.numberList);
 
-          console.log('Successful user assignment retrieval and loading');
-        })
-        .catch(error => console.error('Error fetching assignment', error));
-    }, [id]);
+        console.log('Successful user assignment retrieval and loading');
+      })
+      .catch(error => console.error('Error fetching assignment', error));
+  }, [id]);
 
-    // Handle changes to inputs - set values
-    const handleNumberChange = (event) => {
-        setAssignmentNumber(event.target.value);
-    };
+  // Placeholder function for form submission
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
+      // Add logic to process submission here
+      navigate('/LearnerDashboard')
+  };
 
-    const handleStatusChange = (event) => {
-        setAssignmentStatus(event.target.value);
-    };
-
-    const handleGithubUrlChange = (event) => {
-        setGithubUrl(event.target.value);
-    };
-
-    const handleBranchChange = (event) => {
-        setBranchName(event.target.value);
-    };
-
-    // Placeholder function for form submission
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
-        // Add logic to process submission here
-        navigate('/LearnerDashboard')
-    };
-
-    // Added navigation logic to go back to Dashboard
-    const handleBack = () => {
-        console.log("Navigating back to Learner's dashboard");
-        navigate('/LearnerDashboard')
-    };
+  // Added navigation logic to go back to Dashboard
+  const handleBack = () => {
+      console.log("Navigating back to Learner's dashboard");
+      navigate('/LearnerDashboard')
+  };
 
   // save - method
   const saveAssignment = () => {
