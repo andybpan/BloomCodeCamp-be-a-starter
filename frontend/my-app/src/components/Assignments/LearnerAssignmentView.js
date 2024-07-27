@@ -91,38 +91,6 @@ function LearnerAssignmentView({ assignment }) {
 
   return (
     <div className="assignment-view">
-      <h2>Assignment #{assignmentNumber} : {assignmentStatus}</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Assignment Number:
-          <select value={assignmentNumber} onChange={handleNumberChange}>
-            {/* Populate options here */}
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            {/* Add more options as needed */}
-          </select>
-        </label>
-        <br/>
-        <label>
-          GitHub URL:
-          <input type="text" value={githubUrl} onChange={handleGithubUrlChange} />
-        </label>
-        <br/>
-        <label>
-          Branch Name:
-          <input type="text" value={branchName} onChange={handleBranchChange} />
-        </label>
-        <br/>
-        <div className="buttons">
-          <button type="submit">Submit</button>
-          <button type="button" onClick={handleBack}>Back to Dashboard</button>
-        </div>
-      </form>
-    </div>
-    {/* Duplicate temp for displaying new information*/}
-    <div className="assignment-view">
       {assignment ?  (
         <h2>Assignment #assignment.number : assignment.status</h2>
         <form onSubmit={handleSubmit}>
