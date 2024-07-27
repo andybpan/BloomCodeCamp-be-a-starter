@@ -22,15 +22,32 @@ function LearnerAssignmentView({ assignment }) {
   useEffect(() => {
     axios.get(`/api/assignments/${id}`) // Adjust the API
       .then(response => {
+        // AssignmentDTO data
+        const data = response.data;
+        setAssignment(data.assignment);
+        setStatusList(data.statusList);
+        setNumberList(data.numberList);
 
-        setAssignment(response.assignment);
-        setStatusList(response.statusList);
-        setNumberList(response.numberList);
-
+        // Set current assignment data ?
+        setUpdatedAssignment({
+          assignmentNumber: data.assignment.assignmentNumber,
+          assignmentStatus: data.assignment.assignmentStatus,
+          githubUrl: data.assignment.githubUrl,
+          branchName: data.assignment.branchName,
+        });
         console.log('Successful user assignment retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignment', error));
   }, [id]);
+
+  // Generic handleChange method
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUpdatedAssignment((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   // Placeholder function for form submission
   const handleSubmit = (event) => {
@@ -118,16 +135,33 @@ function LearnerAssignmentView({ assignment }) {
             <option value="4">4</option>
             {/* Add more options as needed */}
           </select>
+          <input
+            type="select"
+            name="assignmentNumber"
+            value={updatedAssignment.assignmentNumber}
+            onChange={handleChange}
+          />
         </label>
         <br/>
         <label>
           GitHub URL:
+          <input
+            type="text"
+            name="branchName"
+            value={updatedAssignment.branchName}
+            onChange={handleChange}
+          />
           <input type="text" value={assignment.githubUrl} onChange={handleGithubUrlChange} />
         </label>
         <br/>
         <label>
           Branch Name:
-          <input type="text" value={assignment.branch} onChange={handleBranchChange} />
+          <input
+            type="text"
+            name="branchName"
+            value={updatedAssignment.branchName}
+            onChange={handleChange}
+          />
         </label>
         <br/>
         <div className="buttons">
