@@ -9,6 +9,10 @@ function LearnerAssignmentView({ assignment }) {
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [numberList, setNumberList] = useState(null);
+  const [updatedAssignment, setUpdatedAssignment] = useState({
+    title: '',
+    description: '',
+  });
 
   const [assignmentNumber, setAssignmentNumber] = useState('');
   const [assignmentStatus, setAssignmentStatus] = useState('');
@@ -17,7 +21,7 @@ function LearnerAssignmentView({ assignment }) {
 
   const navigate = useNavigate();
 
-    // Retrieve Assignment Based on Id
+    // Retrieve AssignmentDTO Based on Id
     useEffect(() => {
       axios.get(`/api/assignments/${id}`) // Adjust the API
         .then(response => {
@@ -31,7 +35,7 @@ function LearnerAssignmentView({ assignment }) {
         .catch(error => console.error('Error fetching assignment', error));
     }, [id]);
 
-     Handle changes to inputs - set values
+    // Handle changes to inputs - set values
     const handleNumberChange = (event) => {
         setAssignmentNumber(event.target.value);
     };
@@ -63,9 +67,14 @@ function LearnerAssignmentView({ assignment }) {
     };
 
   // save - method
-  function saveAssignment() {
-
-  }
+  const saveAssignment = () => {
+    axios.put(`/api/assignments/${id}`, updatedAssignment)
+      .then(response => {
+        setAssignment(response.data);
+        console.log('Assignment updated successfully');
+      })
+      .catch(error => console.error('Error updating assignment', error));
+  };
 
 // Assignment from java Object
 //    id: Long
