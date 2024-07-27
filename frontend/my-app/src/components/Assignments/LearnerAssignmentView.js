@@ -4,67 +4,64 @@ import axios from 'axios';
 import './AssignmentView.css';
 
 function LearnerAssignmentView({ assignment }) {
-  // State to store assignment data
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Store current and new Assignment data
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [numberList, setNumberList] = useState(null);
   const [updatedAssignment, setUpdatedAssignment] = useState({
-    title: '',
-    description: '',
+    assignmentNumber: '',
+    assignmentStatus: '',
+    githubUrl: '',
+    branchName: '',
   });
 
-  const [assignmentNumber, setAssignmentNumber] = useState('');
-  const [assignmentStatus, setAssignmentStatus] = useState('');
-  const [githubUrl, setGithubUrl] = useState('');
-  const [branchName, setBranchName] = useState('');
+  // Retrieve AssignmentDTO Based on Id
+  useEffect(() => {
+    axios.get(`/api/assignments/${id}`) // Adjust the API
+      .then(response => {
+        // AssignmentDTO data
+        const data = response.data;
+        setAssignment(data.assignment);
+        setStatusList(data.statusList);
+        setNumberList(data.numberList);
 
-  const navigate = useNavigate();
+        // Set current assignment data ?
+        setUpdatedAssignment({
+          assignmentNumber: data.assignment.assignmentNumber,
+          assignmentStatus: data.assignment.assignmentStatus,
+          githubUrl: data.assignment.githubUrl,
+          branchName: data.assignment.branchName,
+        });
+        console.log('Successful user assignment retrieval and loading');
+      })
+      .catch(error => console.error('Error fetching assignment', error));
+  }, [id]);
 
-    // Retrieve AssignmentDTO Based on Id
-    useEffect(() => {
-      axios.get(`/api/assignments/${id}`) // Adjust the API
-        .then(response => {
+  // Generic handleChange method
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUpdatedAssignment((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-          setAssignment(response.assignment);
-          setStatusList(response.statusList);
-          setNumberList(response.numberList);
+  // Placeholder function for form submission
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
+      // Add logic to process submission here
+      navigate('/LearnerDashboard')
+  };
 
-          console.log('Successful user assignment retrieval and loading');
-        })
-        .catch(error => console.error('Error fetching assignment', error));
-    }, [id]);
-
-    // Handle changes to inputs - set values
-    const handleNumberChange = (event) => {
-        setAssignmentNumber(event.target.value);
-    };
-
-    const handleStatusChange = (event) => {
-        setAssignmentStatus(event.target.value);
-    };
-
-    const handleGithubUrlChange = (event) => {
-        setGithubUrl(event.target.value);
-    };
-
-    const handleBranchChange = (event) => {
-        setBranchName(event.target.value);
-    };
-
-    // Placeholder function for form submission
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
-        // Add logic to process submission here
-        navigate('/LearnerDashboard')
-    };
-
-    // Added navigation logic to go back to Dashboard
-    const handleBack = () => {
-        console.log("Navigating back to Learner's dashboard");
-        navigate('/LearnerDashboard')
-    };
+  // Added navigation logic to go back to Dashboard
+  const handleBack = () => {
+      console.log("Navigating back to Learner's dashboard");
+      navigate('/LearnerDashboard')
+  };
 
   // save - method
   const saveAssignment = () => {
@@ -138,16 +135,33 @@ function LearnerAssignmentView({ assignment }) {
             <option value="4">4</option>
             {/* Add more options as needed */}
           </select>
+          <input
+            type="select"
+            name="assignmentNumber"
+            value={updatedAssignment.assignmentNumber}
+            onChange={handleChange}
+          />
         </label>
         <br/>
         <label>
           GitHub URL:
+          <input
+            type="text"
+            name="branchName"
+            value={updatedAssignment.branchName}
+            onChange={handleChange}
+          />
           <input type="text" value={assignment.githubUrl} onChange={handleGithubUrlChange} />
         </label>
         <br/>
         <label>
           Branch Name:
-          <input type="text" value={assignment.branch} onChange={handleBranchChange} />
+          <input
+            type="text"
+            name="branchName"
+            value={updatedAssignment.branchName}
+            onChange={handleChange}
+          />
         </label>
         <br/>
         <div className="buttons">
