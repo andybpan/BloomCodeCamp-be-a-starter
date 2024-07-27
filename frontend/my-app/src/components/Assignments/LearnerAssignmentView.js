@@ -4,22 +4,19 @@ import axios from 'axios';
 import './AssignmentView.css';
 
 function LearnerAssignmentView({ assignment }) {
-  // State to store assignment data
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Store current and new Assignment data
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [numberList, setNumberList] = useState(null);
   const [updatedAssignment, setUpdatedAssignment] = useState({
-    title: '',
-    description: '',
+    assignmentNumber: '',
+    assignmentStatus: '',
+    githubUrl: '',
+    branchName: '',
   });
-
-  const [assignmentNumber, setAssignmentNumber] = useState('');
-  const [assignmentStatus, setAssignmentStatus] = useState('');
-  const [githubUrl, setGithubUrl] = useState('');
-  const [branchName, setBranchName] = useState('');
-
-  const navigate = useNavigate();
 
     // Retrieve AssignmentDTO Based on Id
     useEffect(() => {
