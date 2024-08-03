@@ -55,7 +55,7 @@ function LearnerAssignmentView({ assignment }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios.put(`/api/assignments/${id}`, {
-      number: parseInt(updatedAssignment.number, 10), // Convert to integer before sending
+      number: updatedAssignment.number,
       githubUrl: updatedAssignment.githubUrl,
       branch: updatedAssignment.branchName,
     })
