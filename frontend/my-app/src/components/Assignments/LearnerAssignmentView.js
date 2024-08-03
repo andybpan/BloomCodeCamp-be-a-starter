@@ -16,6 +16,7 @@ function LearnerAssignmentView({ assignment }) {
     status: '',
     githubUrl: '',
     branchName: '',
+    reviewVideoUrl: '',
   });
 
   // Retrieve AssignmentDTO Based on Id
@@ -34,6 +35,7 @@ function LearnerAssignmentView({ assignment }) {
           status: data.assignment.status,
           githubUrl: data.assignment.githubUrl,
           branchName: data.assignment.branchName,
+          reviewVideoUrl: data.assignment.reviewVideoUrl
         });
         console.log('Successful user assignment retrieval and loading');
       })
@@ -137,6 +139,16 @@ function LearnerAssignmentView({ assignment }) {
               name="branchName"
               value={updatedAssignment.branchName}
               onChange={handleChange}
+            />
+          </label>
+          <br/>
+          <label>
+            Review Video URL:
+            <input
+              type="text"
+              name="branchName"
+              value={updatedAssignment.reviewVideoUrl}
+              readOnly/
             />
           </label>
           <br/>
