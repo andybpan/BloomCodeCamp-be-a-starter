@@ -10,7 +10,7 @@ function LearnerAssignmentView({ assignment }) {
   // Store current and new Assignment data
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
-  const [numberList, setNumberList] = useState(null);
+  const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [updatedAssignment, setUpdatedAssignment] = useState({
     number: '',
     status: '',
@@ -27,7 +27,7 @@ function LearnerAssignmentView({ assignment }) {
         const data = response.data;
         setAssignment(data.assignment);
         setStatusList(data.statusList);
-        setNumberList(data.numberList);
+        setAssignmentEnums(assignmentEnums); // Store enums in state
 
         // Set current assignment data ?
         setUpdatedAssignment({
