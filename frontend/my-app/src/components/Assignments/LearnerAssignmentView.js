@@ -12,8 +12,8 @@ function LearnerAssignmentView({ assignment }) {
   const [statusList, setStatusList] = useState(null);
   const [numberList, setNumberList] = useState(null);
   const [updatedAssignment, setUpdatedAssignment] = useState({
-    assignmentNumber: '',
-    assignmentStatus: '',
+    number: '',
+    status: '',
     githubUrl: '',
     branchName: '',
   });
@@ -30,8 +30,8 @@ function LearnerAssignmentView({ assignment }) {
 
         // Set current assignment data ?
         setUpdatedAssignment({
-          assignmentNumber: data.assignment.assignmentNumber,
-          assignmentStatus: data.assignment.assignmentStatus,
+          number: data.assignment.number,
+          status: data.assignment.status,
           githubUrl: data.assignment.githubUrl,
           branchName: data.assignment.branchName,
         });
@@ -49,12 +49,19 @@ function LearnerAssignmentView({ assignment }) {
     }));
   };
 
-  // Placeholder function for form submission
+  // Submit form method - with update attributes
   const handleSubmit = (event) => {
-      event.preventDefault();
-      console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName });
-      // Add logic to process submission here
-      navigate('/LearnerDashboard')
+    event.preventDefault();
+    axios.put(`/api/assignments/${id}`, {
+      number: parseInt(updatedAssignment.number, 10), // Convert to integer before sending
+      githubUrl: updatedAssignment.githubUrl,
+      branch: updatedAssignment.branchName,
+    })
+      .then(response => {
+        console.log('Assignment updated successfully');
+        navigate('/LearnerDashboard');
+      })
+      .catch(error => console.error('Error updating assignment', error));
   };
 
   // Added navigation logic to go back to Dashboard
@@ -106,7 +113,7 @@ function LearnerAssignmentView({ assignment }) {
             </select>
             <input
               type="select"
-              name="assignmentNumber"
+              name="number"
               value={updatedAssignment.assignmentNumber}
               onChange={handleChange}
             />
@@ -116,7 +123,7 @@ function LearnerAssignmentView({ assignment }) {
             GitHub URL:
             <input
               type="text"
-              name="branchName"
+              name="githubUr"
               value={updatedAssignment.branchName}
               onChange={handleChange}
             />
