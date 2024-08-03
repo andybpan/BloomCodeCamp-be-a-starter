@@ -105,20 +105,17 @@ function LearnerAssignmentView({ assignment }) {
         <form onSubmit={handleSubmit}>
           <label>
             Assignment Number:
-            <select value={assignmentNumber} onChange={handleNumberChange}>
-              {/* Populate options here */}
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              {/* Add more options as needed */}
-            </select>
-            <input
-              type="select"
+            <select
               name="number"
-              value={updatedAssignment.assignmentNumber}
+              value={updatedAssignment.number}
               onChange={handleChange}
-            />
+            >
+              {assignmentEnums.map(enumItem => (
+                <option key={enumItem.number} value={enumItem.number}>
+                  {enumItem.number} - {enumItem.type}
+                </option>
+              ))}
+            </select>
           </label>
           <br/>
           <label>
