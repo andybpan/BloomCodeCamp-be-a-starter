@@ -13,6 +13,11 @@ function Dashboard() {
       <main className="Dashboard-main">
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
+          <div className="cards-container">
+            {assignments.needsWork.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
         <section className="container submitted-resubmitted">
           <h2 className="container-title">Submitted & Resubmitted</h2>
