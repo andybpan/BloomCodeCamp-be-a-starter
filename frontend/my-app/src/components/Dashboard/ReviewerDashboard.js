@@ -2,6 +2,10 @@ import React from 'react';
 import './ReviewerDashboard.css';
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
+
+
   return (
     <div className="ReviewerDashboard">
       <header className="Dashboard-header">
