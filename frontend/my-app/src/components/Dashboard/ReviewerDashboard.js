@@ -14,7 +14,7 @@ function Dashboard() {
         <section className="container in-review">
           <h2 className="container-title">In Review</h2>
           <div className="cards-container">
-            {assignments.needsWork.map(assignment => (
+            {assignments.inReview.map(assignment => (
               <AssignmentCard key={assignment.id} assignment={assignment} />
             ))}
           </div>
