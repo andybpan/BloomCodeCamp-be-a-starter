@@ -29,6 +29,11 @@ function Dashboard() {
         </section>
         <section className="container completed">
           <h2 className="container-title">Completed</h2>
+            <div className="cards-container">
+              {assignments.completed.map(assignment => (
+                <AssignmentCard key={assignment.id} assignment={assignment} />
+              ))}
+            </div>
         </section>
       </main>
       <footer className="Dashboard-footer">
