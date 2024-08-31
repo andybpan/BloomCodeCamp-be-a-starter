@@ -21,6 +21,11 @@ function Dashboard() {
         </section>
         <section className="container submitted-resubmitted">
           <h2 className="container-title">Submitted & Resubmitted</h2>
+            <div className="cards-container">
+              {assignments.submitted.map(assignment => (
+                <AssignmentCard key={assignment.id} assignment={assignment} />
+              ))}
+            </div>
         </section>
         <section className="container completed">
           <h2 className="container-title">Completed</h2>
