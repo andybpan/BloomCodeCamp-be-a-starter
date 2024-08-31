@@ -1,10 +1,45 @@
 import React from 'react';
 import './ReviewerDashboard.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
 
+  useEffect(() => {
+    axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
+      .then(response => {
+        const fetchedAssignments = { inReview: [], submitted: [], completed: [] };
+        response.data.forEach(assignment => {
+          const assignmentSummary = {
+            id: assignment.id,
+            status: assignment.status
+          };
+
+          // double check status labels
+          // stores assignment summaries
+          switch(assignment.status) {
+            case 'In Review':
+              fetchedAssignments.inReview.push(assignmentSummary);
+              break;
+            case 'Submitted':
+              fetchedAssignments.submitted.push(assignmentSummary);
+              break;
+            case 'Completed':
+              fetchedAssignments.completed.push(assignmentSummary);
+              break;
+            default:
+              // Handle unexpected status - log it
+              console.log('Unhandled status:', assignment.status);
+          }
+        });
+
+        setAssignments(fetchedAssignments);
+        console.log('Successful user assignments retrieval and loading');
+      })
+      .catch(error => console.error('Error fetching assignments', error));
+  }, []);
 
   return (
     <div className="ReviewerDashboard">
