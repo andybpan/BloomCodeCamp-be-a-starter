@@ -6,6 +6,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleLogin = async (event) => {
     event.preventDefault(); // Prevent the default form submission
@@ -25,12 +26,21 @@ function Login() {
         localStorage.setItem('token', data.token); // Store the token
         navigate('/Home'); // Navigate to the dashboard
       } else {
+        setError(data.message)
         alert(data.message); // Show error message from server
       }
     } catch (error) {
       alert('Login failed: ' + error.message);
     }
   };
+
+    if (error) (
+      return (
+        <div>
+          {error}
+        </div>
+      )
+    )
 
   return (
     <div className="login-container">
