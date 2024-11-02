@@ -10,6 +10,7 @@ function LearnerAssignmentView({ assignment }) {
   // Store current and new Assignment data
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
+  const [error, setError] = useState();
   const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [updatedAssignment, setUpdatedAssignment] = useState({
     number: '',
