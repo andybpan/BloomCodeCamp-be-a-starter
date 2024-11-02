@@ -166,6 +166,14 @@ function Dashboard() {
     )
   }
 
+  if (isLoading) {
+    return (
+      <div>
+        Attempting to load assignments ...
+      </div>
+    )
+  }
+
   return (
     <div className="LearnerDashboard">
       <header className="Dashboard-header">
