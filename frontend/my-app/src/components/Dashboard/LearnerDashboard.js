@@ -34,6 +34,7 @@ const mockAssignments = [
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   // idea Refactor Dashboard into a component?
 
@@ -137,7 +138,9 @@ function Dashboard() {
         console.log('Assignment created successfully:', newAssignment);  // Log to the console - maybe just log id?
         navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
       })
-      .catch(error => console.error('Error creating assignment', error));
+      .catch(error =>
+        setError(error.message)
+        console.error('Error creating assignment', error));
     setIsLoading(false)
   }
 
@@ -154,6 +157,22 @@ function Dashboard() {
       return Promise.reject(error);
     }
   );
+
+  if (error) {
+    return (
+      <div>
+        {error.message}
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        Attempting to load assignments ...
+      </div>
+    )
+  }
 
   return (
     <div className="LearnerDashboard">
