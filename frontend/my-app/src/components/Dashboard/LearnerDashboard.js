@@ -34,6 +34,8 @@ const mockAssignments = [
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
+  const [isLoading, setIsLoading] = useState(false);
+  // idea Refactor Dashboard into a component?
 
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
@@ -123,6 +125,7 @@ function Dashboard() {
 
   // Create New Assignment Request - retrieves request data and opens the LAV
   function createAssignment() {
+    setIsLoading(true)
     axios.post('/api/assignments') // POST request without data
       .then(response => {
         const newAssignment = response.data;
@@ -135,6 +138,7 @@ function Dashboard() {
         navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
       })
       .catch(error => console.error('Error creating assignment', error));
+    setIsLoading(false)
   }
 
   // Use Axios interceptor - attache Authentication Bearer Token to all requests:
