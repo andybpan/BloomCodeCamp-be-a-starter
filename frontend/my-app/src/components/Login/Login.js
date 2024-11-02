@@ -7,12 +7,14 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault(); // Prevent the default form submission
     try {
       // fetch API, could also use Axios by downloading it.
       // temporary rest link
+      setIsLoading(true)
       const response = await fetch('http://your-backend-url/api/login', {
         method: 'POST',
         headers: {
@@ -29,18 +31,27 @@ function Login() {
         setError(data.message)
         alert(data.message); // Show error message from server
       }
+      setIsLoading(false)
     } catch (error) {
       alert('Login failed: ' + error.message);
     }
   };
 
-    if (error) (
-      return (
-        <div>
-          {error}
-        </div>
-      )
+  if (isLoading) (
+    return (
+      <div>
+        attempting to login...
+      </div>
     )
+  )
+
+  if (error) (
+    return (
+      <div>
+        {error}
+      </div>
+    )
+  )
 
   return (
     <div className="login-container">
