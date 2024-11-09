@@ -9,7 +9,7 @@ function ReviewerAssignmentView() {
     const [githubUrl, setGithubUrl] = useState('https://github.com/example/repo'); // Example URL
     const [branchName, setBranchName] = useState('main'); // Example branch name
     const [reviewVideoUrl, setReviewVideoUrl] = useState('');
-
+    const [isLoading, setIsLoading] = useState();
     const dashboardNavigate = useNavigate();
 
     const handleReviewVideoUrlChange = (event) => {
