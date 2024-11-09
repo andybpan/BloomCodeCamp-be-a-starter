@@ -11,8 +11,7 @@ function LearnerAssignmentView({ assignment }) {
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [error, setError] = useState();
-
-
+  const [isLoading, setIsLoading] = useState();
 
   const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [updatedAssignment, setUpdatedAssignment] = useState({
@@ -89,6 +88,12 @@ function LearnerAssignmentView({ assignment }) {
   if (error) {
     return <div>
       {error}
+    </div>
+  }
+
+  if (isLoading) {
+    return <div>
+      loading assignments ...
     </div>
   }
 
