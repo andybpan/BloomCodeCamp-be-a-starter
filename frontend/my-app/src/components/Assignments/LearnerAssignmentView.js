@@ -11,6 +11,9 @@ function LearnerAssignmentView({ assignment }) {
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [error, setError] = useState();
+
+
+
   const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [updatedAssignment, setUpdatedAssignment] = useState({
     number: '',
@@ -82,6 +85,13 @@ function LearnerAssignmentView({ assignment }) {
       })
       .catch(error => console.error('Error updating assignment', error));
   };
+
+  if (error) {
+    return <div>
+      {error}
+    </div>
+  }
+
 
 // Assignment from java Object
 //    id: Long
