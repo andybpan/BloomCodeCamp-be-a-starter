@@ -11,7 +11,7 @@ function LearnerAssignmentView({ assignment }) {
   const [assignment, setAssignment] = useState(null);
   const [statusList, setStatusList] = useState(null);
   const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [updatedAssignment, setUpdatedAssignment] = useState({
@@ -24,6 +24,7 @@ function LearnerAssignmentView({ assignment }) {
 
   // Retrieve AssignmentDTO Based on Id
   useEffect(() => {
+    setIsLoading(true)
     axios.get(`/api/assignments/${id}`) // Adjust the API
       .then(response => {
         // AssignmentDTO data
@@ -43,6 +44,9 @@ function LearnerAssignmentView({ assignment }) {
         console.log('Successful user assignment retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignment', error));
+
+    setIsLoading(false)
+
   }, [id]);
 
   // Generic handleChange method
@@ -96,7 +100,6 @@ function LearnerAssignmentView({ assignment }) {
       loading assignments ...
     </div>
   }
-
 
 // Assignment from java Object
 //    id: Long
