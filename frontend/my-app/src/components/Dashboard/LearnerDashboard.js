@@ -41,6 +41,7 @@ function Dashboard() {
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
   useEffect(() => {
+    setLoading(true)
     axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
       .then(response => {
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
@@ -72,6 +73,7 @@ function Dashboard() {
         console.log('Successful user assignments retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignments', error));
+      setLoading(false)
   }, []);
 
   // Update: assignment status
