@@ -43,10 +43,10 @@ function LearnerAssignmentView({ assignment }) {
         });
         console.log('Successful user assignment retrieval and loading');
       })
-      .catch(error => console.error('Error fetching assignment', error));
-
+      .catch(error =>
+        setError(error)
+        console.error('Error fetching assignment', error));
     setIsLoading(false)
-
   }, [id]);
 
   // Generic handleChange method
