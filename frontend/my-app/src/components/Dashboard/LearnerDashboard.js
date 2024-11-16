@@ -72,7 +72,9 @@ function Dashboard() {
         setAssignments(fetchedAssignments);
         console.log('Successful user assignments retrieval and loading');
       })
-      .catch(error => console.error('Error fetching assignments', error));
+      .catch(error =>
+        setError(error)
+        console.error('Error fetching assignments', error));
       setLoading(false)
   }, []);
 
