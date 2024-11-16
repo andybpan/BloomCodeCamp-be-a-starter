@@ -61,6 +61,7 @@ function LearnerAssignmentView({ assignment }) {
   // Submit form method - with update attributes
   const handleSubmit = (event) => {
     event.preventDefault();
+    //    insert loading state for submission
     axios.put(`/api/assignments/${id}`, {
       number: updatedAssignment.number,
       githubUrl: updatedAssignment.githubUrl,
@@ -116,7 +117,7 @@ function LearnerAssignmentView({ assignment }) {
 // Things to do:
     // 1. map the assignment number (list) to the drop down box
     // 2. double check if status is modified only in the back end or requires write from front end
-    //
+    // 3. Add a loading state for the submission and completion
 
   return (
     <div className="assignment-view">
