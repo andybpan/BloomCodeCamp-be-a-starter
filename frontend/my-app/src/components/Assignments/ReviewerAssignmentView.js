@@ -51,6 +51,13 @@ function ReviewerAssignmentView() {
         </div>
       )
 
+    if (error):
+       return (
+         <div>
+           {error}
+         </div>
+       )
+
     return (
         <div className="assignment-view">
             <h2>Assignment #{assignmentNumber} : {assignmentStatus}</h2>
