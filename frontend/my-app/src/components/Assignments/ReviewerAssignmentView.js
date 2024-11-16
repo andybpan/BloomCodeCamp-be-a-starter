@@ -44,6 +44,13 @@ function ReviewerAssignmentView() {
         dashboardNavigate('/ReviewerDashboard')
     };
 
+    if (isLoading):
+      return (
+        <div>
+          Loading Assignments ...
+        </div>
+      )
+
     return (
         <div className="assignment-view">
             <h2>Assignment #{assignmentNumber} : {assignmentStatus}</h2>
