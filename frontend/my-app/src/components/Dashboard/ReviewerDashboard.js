@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
+  const [error, setError] = useState('')
 
   useEffect(() => {
     axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
