@@ -7,6 +7,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
