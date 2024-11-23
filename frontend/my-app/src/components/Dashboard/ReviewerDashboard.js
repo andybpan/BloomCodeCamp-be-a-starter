@@ -47,7 +47,17 @@ function Dashboard() {
       setIsLoading(false)
   }, []);
 
-// insert spin icon
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+         <p>please refresh and try again</p>
+      </div>
+    )
+  }
+
+
+  // insert spin icon
   if (isLoading) {
     return (
       <div>
