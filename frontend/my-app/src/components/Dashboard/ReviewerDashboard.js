@@ -10,6 +10,7 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
       .then(response => {
         const fetchedAssignments = { inReview: [], submitted: [], completed: [] };
@@ -18,7 +19,6 @@ function Dashboard() {
             id: assignment.id,
             status: assignment.status
           };
-
           // double check status labels
           // stores assignment summaries
           switch(assignment.status) {
@@ -41,6 +41,7 @@ function Dashboard() {
         console.log('Successful user assignments retrieval and loading');
       })
       .catch(error => console.error('Error fetching assignments', error));
+      setIsLoading(false)
   }, []);
 
   return (
