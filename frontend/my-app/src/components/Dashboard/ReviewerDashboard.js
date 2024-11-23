@@ -44,6 +44,15 @@ function Dashboard() {
       setIsLoading(false)
   }, []);
 
+// insert spin icon
+  if (isLoading) {
+    return (
+      <div>
+        Loading Dashboard ...
+      </div>
+    )
+  }
+
   return (
     <div className="ReviewerDashboard">
       <header className="Dashboard-header">
