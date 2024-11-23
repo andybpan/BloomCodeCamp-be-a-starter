@@ -40,11 +40,24 @@ function Dashboard() {
         setAssignments(fetchedAssignments);
         console.log('Successful user assignments retrieval and loading');
       })
-      .catch(error => console.error('Error fetching assignments', error));
+      .catch(error =>
+        console.error('Error fetching assignments', error)
+        setError(error.message)
+      );
       setIsLoading(false)
   }, []);
 
-// insert spin icon
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+         <p>please refresh and try again</p>
+      </div>
+    )
+  }
+
+
+  // insert spin icon
   if (isLoading) {
     return (
       <div>
