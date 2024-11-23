@@ -56,7 +56,6 @@ function Dashboard() {
     )
   }
 
-
   // insert spin icon
   if (isLoading) {
     return (
