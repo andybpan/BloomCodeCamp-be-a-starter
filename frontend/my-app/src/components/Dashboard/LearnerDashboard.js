@@ -124,24 +124,23 @@ function Dashboard() {
   // just stores the id and status - will be send over the LAV and used to retrieve the data?
 
   // Create New Assignment Request - retrieves request data and opens the LAV
-  function createAssignment() {
-    setIsLoading(true)
-    axios.post('/api/assignments') // POST request without data
-      .then(response => {
-        const newAssignment = response.data;
-        setAssignments(prev => ({
-          ...prev,
-          needsWork: [...prev.needsWork, newAssignment]  // Add the new assignment to the 'needsWork' array
-        }));
-
-        console.log('Assignment created successfully:', newAssignment);  // Log to the console - maybe just log id?
-        navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
-      })
-      .catch(error =>
-        setError(error.message)
-        console.error('Error creating assignment', error));
-    setIsLoading(false)
-  }
+  const createAssignment = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('/api/assignments');
+      const newAssignment = response.data;
+      setAssignments(prev => ({
+        ...prev,
+        needsWork: [...prev.needsWork, newAssignment]
+      }));
+      navigate(`/learnerAssignmentView/${newAssignment.id}`);
+    } catch (error) {
+      setError('Error creating assignment: ' + error.message);
+      console.error('Error creating assignment', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Use Axios interceptor - attache Authentication Bearer Token to all requests:
   axios.interceptors.request.use(
