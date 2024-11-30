@@ -176,8 +176,8 @@ function Dashboard() {
         <h1>Learner's Dashboard</h1>
       </header>
       <div className="button-container">
-        <button className="button-style" onClick={createAssignment} >Create New Assignment</button>
-        <button className="button-style">Log Out</button>
+        <button className="button-style" onClick={createAssignment}>Create New Assignment</button>
+        <button className="button-style" onClick={() => navigate('/login')}>Log Out</button>
       </div>
       <main className="Dashboard-main">
         <section className="container needs-work">
@@ -200,14 +200,6 @@ function Dashboard() {
           <h2 className="container-title">In Review</h2>
           <div className="cards-container">
             {assignments.inReview.map(assignment => (
-              <AssignmentCard key={assignment.id} assignment={assignment} />
-            ))}
-          </div>
-        </section>
-        <section className="container Mock">
-          <h2 className="container-title">Mock Up</h2>
-          <div className="cards-container">
-            {mockAssignments.map(assignment => (
               <AssignmentCard key={assignment.id} assignment={assignment} />
             ))}
           </div>
