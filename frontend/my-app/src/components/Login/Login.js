@@ -5,16 +5,16 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
+    setIsLoading(true);
+    setError('');
+
     try {
-      // fetch API, could also use Axios by downloading it.
-      // temporary rest link
-      setIsLoading(true)
       const response = await fetch('http://your-backend-url/api/login', {
         method: 'POST',
         headers: {
@@ -25,33 +25,17 @@ function Login() {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token); // Store the token
-        navigate('/Home'); // Navigate to the dashboard
+        localStorage.setItem('token', data.token);
+        navigate('/home');
       } else {
-        setError(data.message)
-        alert(data.message); // Show error message from server
+        setError(data.message);
       }
-      setIsLoading(false)
     } catch (error) {
-      alert('Login failed: ' + error.message);
+      setError('Login failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (isLoading) (
-    return (
-      <div>
-        attempting to login...
-      </div>
-    )
-  )
-
-  if (error) (
-    return (
-      <div>
-        {error}
-      </div>
-    )
-  )
 
   return (
     <div className="login-container">
@@ -61,20 +45,38 @@ function Login() {
       <main className="login-main">
         <div className="login-box">
           <h2>Login</h2>
+          {isLoading && <p>Attempting to login...</p>}
+          {error && <p className="error-message">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" name="username" required
-                     value={username} onChange={(e) => setUsername(e.target.value)} />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" name="password" required
-                     value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="button-group">
-              <button type="submit">Login</button>
-              <button type="button" onClick={() => navigate('/')}>Back</button>
+              <button type="submit" disabled={isLoading}>
+                Login
+              </button>
+              <button type="button" onClick={() => navigate('/')}>
+                Back
+              </button>
             </div>
           </form>
         </div>
