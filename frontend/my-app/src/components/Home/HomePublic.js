@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Home.css';
 import { useNavigate } from 'react-router-dom';
-
+import './Home.css';
 
 function Home() {
-
-  const navigateToLogin = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigateToLogin('/Login');
+    navigate('/login');
   };
 
   return (
@@ -26,6 +23,7 @@ function Home() {
         </p>
       </main>
       <footer className="home-footer">
+        {/* Footer content can be added here if needed */}
       </footer>
     </div>
   );
