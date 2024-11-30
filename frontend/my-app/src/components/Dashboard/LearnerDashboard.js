@@ -83,45 +83,39 @@ function Dashboard() {
   // Note: Assignment will be updated with more attributes / info
   // TO DO: retrieve attributes and store into assignment item to put
   // Right now: stores the new status to the corresponding assignment ID for layout
-  function updateAssignmentStatus(assignmentId, newStatus) {
-    // insert request data - like github link, assignment type, etc..
-    axios.put(`/api/assignments/${assignmentId}`, { status: newStatus })
-      .then(response => {
-        const updatedAssignment = response.data; // Assuming the response includes the updated assignment
-        setAssignments(prevAssignments => {
-          // Creating new objects for each category to avoid direct mutation
-          const newNeedsWork = [...prevAssignments.needsWork.filter(a => a.id !== assignmentId)];
-          const newCompleted = [...prevAssignments.completed.filter(a => a.id !== assignmentId)];
-          const newInReview = [...prevAssignments.inReview.filter(a => a.id !== assignmentId)];
+  const updateAssignmentStatus = async (assignmentId, newStatus) => {
+    try {
+      const response = await axios.put(`/api/assignments/${assignmentId}`, { status: newStatus });
+      const updatedAssignment = response.data;
+      setAssignments(prevAssignments => {
+        const newNeedsWork = prevAssignments.needsWork.filter(a => a.id !== assignmentId);
+        const newCompleted = prevAssignments.completed.filter(a => a.id !== assignmentId);
+        const newInReview = prevAssignments.inReview.filter(a => a.id !== assignmentId);
 
-          // Adding the updated assignment to the appropriate section based on its new status
-          switch (newStatus) {
-            case 'Needs Work':
-              newNeedsWork.push(updatedAssignment);
-              break;
-            case 'Completed':
-              newCompleted.push(updatedAssignment);
-              break;
-            case 'In Review':
-              newInReview.push(updatedAssignment);
-              break;
-            default:
-              // Handle any unexpected status
-              break;
-          }
+        switch (newStatus) {
+          case 'Needs Work':
+            newNeedsWork.push(updatedAssignment);
+            break;
+          case 'Completed':
+            newCompleted.push(updatedAssignment);
+            break;
+          case 'In Review':
+            newInReview.push(updatedAssignment);
+            break;
+          default:
+            break;
+        }
 
-          // Return the new state object
-          return {
-            needsWork: newNeedsWork,
-            completed: newCompleted,
-            inReview: newInReview
-          };
-        });
-      })
-      .catch(error => {
-        console.error('Error updating assignment status', error);
+        return {
+          needsWork: newNeedsWork,
+          completed: newCompleted,
+          inReview: newInReview
+        };
       });
-  }
+    } catch (error) {
+      console.error('Error updating assignment status', error);
+    }
+  };
 
 
   // The DOM will map and display the object
