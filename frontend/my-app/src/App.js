@@ -1,6 +1,4 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import HomePublic from './components/Home/HomePublic';
 import HomeAuth from './components/Home/HomeAuthenticated';
@@ -12,29 +10,27 @@ import ReviewerAssignmentView from './components/Assignments/ReviewerAssignmentV
 
 function App() {
   return (
-    <div className = "App">
-      <div>
-        <nav>
-          <ul>
-            <li><Link to="/">Home Page</Link></li>
-            <li><Link to="/Home">Home Authenticated</Link></li>
-            <li><Link to="/Login">Login</Link></li>
-            <li><Link to="/LearnerDashboard">Learner Dashboard</Link></li>
-            <li><Link to="/ReviewerDashboard">Reviewer Dashboard</Link></li>
-            <li><Link to="/LearnerAssignmentView">Learner Assignment View</Link></li>
-            <li><Link to="/ReviewerAssignmentView">Reviewer Assignment View</Link></li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<HomePublic />} />
-          <Route path="/Home" element={<HomeAuth />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/LearnerDashboard" element={<LearnerDashboard />} />
-          <Route path="/ReviewerDashboard" element={<ReviewerDashboard />} />
-          <Route path="/LearnerAssignmentView/:id" element={<LearnerAssignmentView />} />
-          <Route path="/ReviewerAssignmentView" element={<ReviewerAssignmentView />} />
-        </Routes>
-      </div>
+    <div className="App">
+      <nav>
+        <ul>
+          <li><Link to="/">Home Page</Link></li>
+          <li><Link to="/home">Home Authenticated</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/learner-dashboard">Learner Dashboard</Link></li>
+          <li><Link to="/reviewer-dashboard">Reviewer Dashboard</Link></li>
+          <li><Link to="/learner-assignment-view">Learner Assignment View</Link></li>
+          <li><Link to="/reviewer-assignment-view">Reviewer Assignment View</Link></li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/" element={<HomePublic />} />
+        <Route path="/home" element={<HomeAuth />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/learner-dashboard" element={<LearnerDashboard />} />
+        <Route path="/reviewer-dashboard" element={<ReviewerDashboard />} />
+        <Route path="/learner-assignment-view/:id" element={<LearnerAssignmentView />} />
+        <Route path="/reviewer-assignment-view" element={<ReviewerAssignmentView />} />
+      </Routes>
     </div>
   );
 }
