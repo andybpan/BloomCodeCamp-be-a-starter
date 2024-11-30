@@ -5,16 +5,15 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
+    setIsLoading(true);
+    setError('');
     try {
-      // fetch API, could also use Axios by downloading it.
-      // temporary rest link
-      setIsLoading(true)
       const response = await fetch('http://your-backend-url/api/login', {
         method: 'POST',
         headers: {
@@ -25,15 +24,15 @@ function Login() {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token); // Store the token
-        navigate('/Home'); // Navigate to the dashboard
+        localStorage.setItem('token', data.token);
+        navigate('/home');
       } else {
-        setError(data.message)
-        alert(data.message); // Show error message from server
+        setError(data.message);
       }
-      setIsLoading(false)
     } catch (error) {
-      alert('Login failed: ' + error.message);
+      setError('Login failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
