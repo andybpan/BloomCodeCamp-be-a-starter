@@ -31,19 +31,20 @@ const mockAssignments = [
   { id: 12, title: 'Assignment 12', status: 'In Review' }
 ];
 
+// idea Refactor Dashboard into a component?
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // idea Refactor Dashboard into a component?
 
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
   useEffect(() => {
-    setLoading(true)
-    axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
-      .then(response => {
+    const fetchAssignments = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('/api/assignments'); // double check route
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
         response.data.forEach(assignment => {
           const assignmentSummary = {
@@ -51,9 +52,7 @@ function Dashboard() {
             status: assignment.status
           };
 
-          // double check status labels
-          // stores assignment summaries
-          switch(assignment.status) {
+          switch (assignment.status) {
             case 'Needs Work':
               fetchedAssignments.needsWork.push(assignmentSummary);
               break;
@@ -64,18 +63,20 @@ function Dashboard() {
               fetchedAssignments.inReview.push(assignmentSummary);
               break;
             default:
-              // Handle unexpected status - log it
               console.log('Unhandled status:', assignment.status);
           }
         });
 
         setAssignments(fetchedAssignments);
-        console.log('Successful user assignments retrieval and loading');
-      })
-      .catch(error =>
-        setError(error)
-        console.error('Error fetching assignments', error));
-      setLoading(false)
+      } catch (error) {
+        setError('Error fetching assignments: ' + error.message);
+        console.error('Error fetching assignments', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAssignments();
   }, []);
 
   // Update: assignment status
