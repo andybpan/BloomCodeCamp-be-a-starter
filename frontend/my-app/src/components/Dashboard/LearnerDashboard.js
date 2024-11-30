@@ -31,19 +31,20 @@ const mockAssignments = [
   { id: 12, title: 'Assignment 12', status: 'In Review' }
 ];
 
+// idea Refactor Dashboard into a component?
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ needsWork: [], completed: [], inReview: [] });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // idea Refactor Dashboard into a component?
 
   // GET ALL user assignments - when page displays
   // useEffect is a keyword & will trigger after the DOM loads
   useEffect(() => {
-    setLoading(true)
-    axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
-      .then(response => {
+    const fetchAssignments = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('/api/assignments'); // double check route
         const fetchedAssignments = { needsWork: [], completed: [], inReview: [] };
         response.data.forEach(assignment => {
           const assignmentSummary = {
@@ -51,9 +52,7 @@ function Dashboard() {
             status: assignment.status
           };
 
-          // double check status labels
-          // stores assignment summaries
-          switch(assignment.status) {
+          switch (assignment.status) {
             case 'Needs Work':
               fetchedAssignments.needsWork.push(assignmentSummary);
               break;
@@ -64,63 +63,59 @@ function Dashboard() {
               fetchedAssignments.inReview.push(assignmentSummary);
               break;
             default:
-              // Handle unexpected status - log it
               console.log('Unhandled status:', assignment.status);
           }
         });
 
         setAssignments(fetchedAssignments);
-        console.log('Successful user assignments retrieval and loading');
-      })
-      .catch(error =>
-        setError(error)
-        console.error('Error fetching assignments', error));
-      setLoading(false)
+      } catch (error) {
+        setError('Error fetching assignments: ' + error.message);
+        console.error('Error fetching assignments', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAssignments();
   }, []);
 
   // Update: assignment status
   // Note: Assignment will be updated with more attributes / info
   // TO DO: retrieve attributes and store into assignment item to put
   // Right now: stores the new status to the corresponding assignment ID for layout
-  function updateAssignmentStatus(assignmentId, newStatus) {
-    // insert request data - like github link, assignment type, etc..
-    axios.put(`/api/assignments/${assignmentId}`, { status: newStatus })
-      .then(response => {
-        const updatedAssignment = response.data; // Assuming the response includes the updated assignment
-        setAssignments(prevAssignments => {
-          // Creating new objects for each category to avoid direct mutation
-          const newNeedsWork = [...prevAssignments.needsWork.filter(a => a.id !== assignmentId)];
-          const newCompleted = [...prevAssignments.completed.filter(a => a.id !== assignmentId)];
-          const newInReview = [...prevAssignments.inReview.filter(a => a.id !== assignmentId)];
+  const updateAssignmentStatus = async (assignmentId, newStatus) => {
+    try {
+      const response = await axios.put(`/api/assignments/${assignmentId}`, { status: newStatus });
+      const updatedAssignment = response.data;
+      setAssignments(prevAssignments => {
+        const newNeedsWork = prevAssignments.needsWork.filter(a => a.id !== assignmentId);
+        const newCompleted = prevAssignments.completed.filter(a => a.id !== assignmentId);
+        const newInReview = prevAssignments.inReview.filter(a => a.id !== assignmentId);
 
-          // Adding the updated assignment to the appropriate section based on its new status
-          switch (newStatus) {
-            case 'Needs Work':
-              newNeedsWork.push(updatedAssignment);
-              break;
-            case 'Completed':
-              newCompleted.push(updatedAssignment);
-              break;
-            case 'In Review':
-              newInReview.push(updatedAssignment);
-              break;
-            default:
-              // Handle any unexpected status
-              break;
-          }
+        switch (newStatus) {
+          case 'Needs Work':
+            newNeedsWork.push(updatedAssignment);
+            break;
+          case 'Completed':
+            newCompleted.push(updatedAssignment);
+            break;
+          case 'In Review':
+            newInReview.push(updatedAssignment);
+            break;
+          default:
+            break;
+        }
 
-          // Return the new state object
-          return {
-            needsWork: newNeedsWork,
-            completed: newCompleted,
-            inReview: newInReview
-          };
-        });
-      })
-      .catch(error => {
-        console.error('Error updating assignment status', error);
+        return {
+          needsWork: newNeedsWork,
+          completed: newCompleted,
+          inReview: newInReview
+        };
       });
-  }
+    } catch (error) {
+      console.error('Error updating assignment status', error);
+    }
+  };
 
 
   // The DOM will map and display the object
@@ -129,24 +124,23 @@ function Dashboard() {
   // just stores the id and status - will be send over the LAV and used to retrieve the data?
 
   // Create New Assignment Request - retrieves request data and opens the LAV
-  function createAssignment() {
-    setIsLoading(true)
-    axios.post('/api/assignments') // POST request without data
-      .then(response => {
-        const newAssignment = response.data;
-        setAssignments(prev => ({
-          ...prev,
-          needsWork: [...prev.needsWork, newAssignment]  // Add the new assignment to the 'needsWork' array
-        }));
-
-        console.log('Assignment created successfully:', newAssignment);  // Log to the console - maybe just log id?
-        navigate(`/learnerAssignmentView/${newAssignment.id}`); // pass in the assignment id - need to update LAV later
-      })
-      .catch(error =>
-        setError(error.message)
-        console.error('Error creating assignment', error));
-    setIsLoading(false)
-  }
+  const createAssignment = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('/api/assignments');
+      const newAssignment = response.data;
+      setAssignments(prev => ({
+        ...prev,
+        needsWork: [...prev.needsWork, newAssignment]
+      }));
+      navigate(`/learnerAssignmentView/${newAssignment.id}`);
+    } catch (error) {
+      setError('Error creating assignment: ' + error.message);
+      console.error('Error creating assignment', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Use Axios interceptor - attache Authentication Bearer Token to all requests:
   axios.interceptors.request.use(
@@ -157,9 +151,7 @@ function Dashboard() {
       }
       return config;
     },
-    error => {
-      return Promise.reject(error);
-    }
+    error => Promise.reject(error)
   );
 
   if (error) {

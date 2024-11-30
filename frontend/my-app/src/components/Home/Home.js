@@ -61,7 +61,7 @@ function Home() {
         )}
       </main>
       <footer className="home-footer">
-        {/* Footer content can be added here if needed */}
+
       </footer>
     </div>
   );
