@@ -13,6 +13,7 @@ function Login() {
     event.preventDefault();
     setIsLoading(true);
     setError('');
+
     try {
       const response = await fetch('http://your-backend-url/api/login', {
         method: 'POST',
@@ -36,22 +37,6 @@ function Login() {
     }
   };
 
-  if (isLoading) (
-    return (
-      <div>
-        attempting to login...
-      </div>
-    )
-  )
-
-  if (error) (
-    return (
-      <div>
-        {error}
-      </div>
-    )
-  )
-
   return (
     <div className="login-container">
       <div className="header">
@@ -60,20 +45,38 @@ function Login() {
       <main className="login-main">
         <div className="login-box">
           <h2>Login</h2>
+          {isLoading && <p>Attempting to login...</p>}
+          {error && <p className="error-message">{error}</p>}
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" name="username" required
-                     value={username} onChange={(e) => setUsername(e.target.value)} />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" name="password" required
-                     value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="button-group">
-              <button type="submit">Login</button>
-              <button type="button" onClick={() => navigate('/')}>Back</button>
+              <button type="submit" disabled={isLoading}>
+                Login
+              </button>
+              <button type="button" onClick={() => navigate('/')}>
+                Back
+              </button>
             </div>
           </form>
         </div>
