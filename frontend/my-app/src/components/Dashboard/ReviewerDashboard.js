@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2 } from "lucide-react" // assuming you're using lucide-react for icons
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import './ReviewerDashboard.css';
+
 interface Assignment {
   id: string;
   status: 'In Review' | 'Submitted' | 'Completed';
@@ -21,18 +21,25 @@ function Dashboard() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    setIsLoading(true)
-    axios.get('/api/assignments') // Adjust the API - I do not remember what the api end point path is lol
-      .then(response => {
-        const fetchedAssignments = { inReview: [], submitted: [], completed: [] };
-        response.data.forEach(assignment => {
-          const assignmentSummary = {
-            id: assignment.id,
-            status: assignment.status
-          };
-          // double check status labels
-          // stores assignment summaries
+  const fetchAssignments = async () => {
+    try {
+      setIsLoading(true);
+      setError('');
+
+      const response = await axios.get('/api/assignments');
+      const fetchedAssignments: AssignmentGroups = {
+        inReview: [],
+        submitted: [],
+        completed: []
+      };
+
+      response.data.forEach((assignment: Assignment) => {
+        const assignmentSummary = {
+          id: assignment.id,
+          status: assignment.status
+        };
+
+        try {
           switch(assignment.status) {
             case 'In Review':
               fetchedAssignments.inReview.push(assignmentSummary);
@@ -44,19 +51,30 @@ function Dashboard() {
               fetchedAssignments.completed.push(assignmentSummary);
               break;
             default:
-              // Handle unexpected status - log it
-              console.log('Unhandled status:', assignment.status);
+              console.warn('Unhandled assignment status:', assignment.status);
           }
-        });
+        } catch (sortError) {
+        console.error('Error sorting assignment:', sortError);
+      }
+    });
 
-        setAssignments(fetchedAssignments);
-        console.log('Successful user assignments retrieval and loading');
-      })
-      .catch(error =>
-        console.error('Error fetching assignments', error)
-        setError(error.message)
-      );
-      setIsLoading(false)
+    setAssignments(fetchedAssignments);
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.message || 'Failed to fetch assignments');
+        console.error('API Error:', error.response?.data);
+      } else {
+        setError('An unexpected error occurred');
+        console.error('Unexpected Error:', error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAssignments();
   }, []);
 
   if (error) {
