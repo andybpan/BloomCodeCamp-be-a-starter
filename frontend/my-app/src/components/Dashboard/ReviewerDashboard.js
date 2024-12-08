@@ -102,11 +102,13 @@ function Dashboard() {
   // insert spin icon
   if (isLoading) {
     return (
-      <div>
-        Loading Dashboard ...
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Loading Dashboard...</span>
       </div>
-    )
+    );
   }
+
 
   return (
     <div className="ReviewerDashboard">
