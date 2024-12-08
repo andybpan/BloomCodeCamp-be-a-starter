@@ -8,6 +8,12 @@ interface Assignment {
   status: 'In Review' | 'Submitted' | 'Completed';
 }
 
+interface AssignmentGroups {
+  inReview: Assignment[];
+  submitted: Assignment[];
+  completed: Assignment[];
+}
+
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
