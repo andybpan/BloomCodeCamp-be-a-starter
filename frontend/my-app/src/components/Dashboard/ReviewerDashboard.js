@@ -1,8 +1,9 @@
-import React from 'react';
-import './ReviewerDashboard.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
+import { Loader2 } from "lucide-react" // assuming you're using lucide-react for icons
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import './ReviewerDashboard.css';
 interface Assignment {
   id: string;
   status: 'In Review' | 'Submitted' | 'Completed';
