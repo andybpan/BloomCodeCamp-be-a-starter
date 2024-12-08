@@ -109,14 +109,15 @@ function Dashboard() {
     );
   }
 
-
   return (
     <div className="ReviewerDashboard">
       <header className="Dashboard-header">
         <h1>Reviewer's Dashboard</h1>
       </header>
       <div className="button-container">
-        <button className="button-style">Log Out</button>
+        <Button variant="outline" className="button-style">
+          Log Out
+        </Button>
       </div>
       <main className="Dashboard-main">
         <section className="container in-review">
@@ -129,19 +130,19 @@ function Dashboard() {
         </section>
         <section className="container submitted-resubmitted">
           <h2 className="container-title">Submitted & Resubmitted</h2>
-            <div className="cards-container">
-              {assignments.submitted.map(assignment => (
-                <AssignmentCard key={assignment.id} assignment={assignment} />
-              ))}
-            </div>
+          <div className="cards-container">
+            {assignments.submitted.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
         <section className="container completed">
           <h2 className="container-title">Completed</h2>
-            <div className="cards-container">
-              {assignments.completed.map(assignment => (
-                <AssignmentCard key={assignment.id} assignment={assignment} />
-              ))}
-            </div>
+          <div className="cards-container">
+            {assignments.completed.map(assignment => (
+              <AssignmentCard key={assignment.id} assignment={assignment} />
+            ))}
+          </div>
         </section>
       </main>
       <footer className="Dashboard-footer">
