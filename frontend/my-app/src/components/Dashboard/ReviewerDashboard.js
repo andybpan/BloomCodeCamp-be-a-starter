@@ -3,6 +3,11 @@ import './ReviewerDashboard.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+interface Assignment {
+  id: string;
+  status: 'In Review' | 'Submitted' | 'Completed';
+}
+
 function Dashboard() {
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState({ inReview: [], submitted: [], completed: [] });
