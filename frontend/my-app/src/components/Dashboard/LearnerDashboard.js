@@ -154,21 +154,21 @@ function Dashboard() {
     error => Promise.reject(error)
   );
 
-  if (isLoading) {
-    return (
-      <div className="loading-container">
-        <p className="loading-message">Loading assignments, please wait...</p>
-        {/* Add spinner */}
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="error-container">
         <p className="error-message">Oops! Something went wrong:</p>
         <p>{error}</p>
         <button onClick={() => window.location.reload()} className="retry-button">Retry</button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <p className="loading-message">Loading assignments, please wait...</p>
+        {/* Add spinner */}
       </div>
     );
   }
