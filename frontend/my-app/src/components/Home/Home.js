@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode'; // Ensure correct import
+import { Loader2 } from "lucide-react";
 
 function Home() {
   const navigate = useNavigate();
@@ -39,26 +40,36 @@ function Home() {
   };
 
   // Function to handle dashboard navigation based on user's authority
-   const handleDashboard = () => {
-      setIsLoading(true);
-      try {
-        const role = getRoleFromToken();
-        if (role === 'learner') {
-          navigate('/learner-dashboard');
-        } else if (role === 'reviewer') {
-          navigate('/reviewer-dashboard');
-        } else {
-          setError('Role not defined or token is invalid.');
-        }
-      } catch (error) {
-        setError('Failed to navigate to dashboard');
-      } finally {
-        setIsLoading(false);
+  const handleDashboard = () => {
+    setIsLoading(true);
+    try {
+      const role = getRoleFromToken();
+      if (role === 'learner') {
+        navigate('/learner-dashboard');
+      } else if (role === 'reviewer') {
+        navigate('/reviewer-dashboard');
+      } else {
+        setError('Role not defined or token is invalid.');
       }
-   };
+    } catch (error) {
+      setError('Failed to navigate to dashboard');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Check if the user is authenticated
   const isAuthenticated = !!getRoleFromToken();
+
+  if (isLoading) {
+    return (
+      <div className="home-container">
+        <div className="loading-container">
+          <Loader2 className="loading-spinner" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="home-container">
