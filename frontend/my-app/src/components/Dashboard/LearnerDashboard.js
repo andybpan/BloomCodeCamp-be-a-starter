@@ -3,6 +3,7 @@ import './LearnerDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AssignmentCard from './AssignmentCard';
+import { Loader2 } from "lucide-react"
 
 // 1. Retrieve and display each assignment in their corresponding status section
   // display style and css needs work
@@ -167,8 +168,8 @@ function Dashboard() {
   if (isLoading) {
     return (
       <div className="loading-container">
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="loading-message">Loading assignments, please wait...</p>
-        {/* Add spinner */}
       </div>
     );
   }
