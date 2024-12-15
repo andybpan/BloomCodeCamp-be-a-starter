@@ -3,6 +3,7 @@ import './LearnerDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AssignmentCard from './AssignmentCard';
+import { Loader2 } from "lucide-react"
 
 // 1. Retrieve and display each assignment in their corresponding status section
   // display style and css needs work
@@ -154,21 +155,21 @@ function Dashboard() {
     error => Promise.reject(error)
   );
 
-  if (isLoading) {
-    return (
-      <div className="loading-container">
-        <p className="loading-message">Loading assignments, please wait...</p>
-        {/* Add spinner */}
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="error-container">
         <p className="error-message">Oops! Something went wrong:</p>
         <p>{error}</p>
         <button onClick={() => window.location.reload()} className="retry-button">Retry</button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <p className="loading-message">Loading assignments, please wait...</p>
       </div>
     );
   }
