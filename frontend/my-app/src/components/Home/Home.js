@@ -6,6 +6,7 @@ function Home() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Function to decode JWT token and determine the user's role
   const getRoleFromToken = () => {
