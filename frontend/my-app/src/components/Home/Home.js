@@ -8,6 +8,22 @@ function Home() {
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+      checkAuthentication();
+    }, []);
+
+  const checkAuthentication = () => {
+    setIsLoading(true);
+    try {
+      const role = getRoleFromToken();
+      setIsAuthenticated(!!role);
+    } catch (error) {
+      setError('Failed to authenticate user');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Function to decode JWT token and determine the user's role
   const getRoleFromToken = () => {
     const token = localStorage.getItem('token');
