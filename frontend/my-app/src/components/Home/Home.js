@@ -4,6 +4,8 @@ import jwtDecode from 'jwt-decode'; // Ensure correct import
 
 function Home() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Function to decode JWT token and determine the user's role
   const getRoleFromToken = () => {
