@@ -39,16 +39,23 @@ function Home() {
   };
 
   // Function to handle dashboard navigation based on user's authority
-  const handleDashboard = () => {
-    const role = getRoleFromToken();
-    if (role === 'learner') {
-      navigate('/learner-dashboard');
-    } else if (role === 'reviewer') {
-      navigate('/reviewer-dashboard');
-    } else {
-      console.log('Role not defined or token is invalid.');
-    }
-  };
+   const handleDashboard = () => {
+      setIsLoading(true);
+      try {
+        const role = getRoleFromToken();
+        if (role === 'learner') {
+          navigate('/learner-dashboard');
+        } else if (role === 'reviewer') {
+          navigate('/reviewer-dashboard');
+        } else {
+          setError('Role not defined or token is invalid.');
+        }
+      } catch (error) {
+        setError('Failed to navigate to dashboard');
+      } finally {
+        setIsLoading(false);
+      }
+   };
 
   // Check if the user is authenticated
   const isAuthenticated = !!getRoleFromToken();
