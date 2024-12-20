@@ -91,13 +91,18 @@ function LearnerAssignmentView({ assignment }) {
 
   // save - method
 //  add save display
-  const saveAssignment = () => {
-    axios.put(`/api/assignments/${id}`, updatedAssignment)
-      .then(response => {
-        setAssignment(response.data);
-        console.log('Assignment updated successfully');
-      })
-      .catch(error => console.error('Error updating assignment', error));
+  const saveAssignment = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.put(`/api/assignments/${id}`, updatedAssignment);
+      setAssignment(response.data);
+      console.log('Assignment updated successfully');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating assignment:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (error) {
@@ -130,62 +135,63 @@ function LearnerAssignmentView({ assignment }) {
 
   return (
     <div className="assignment-view">
-      {assignment ?  (
-        <h2>Assignment #assignment.number : assignment.status</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Assignment Number:
-            <select
-              name="number"
-              value={updatedAssignment.number}
-              onChange={handleChange}
-            >
-              {assignmentEnums.map(enumItem => (
-                <option key={enumItem.number} value={enumItem.number}>
-                  {enumItem.number} - {enumItem.type}
-                </option>
-              ))}
-            </select>
-          </label>
-          <br/>
-          <label>
-            GitHub URL:
-            <input
-              type="text"
-              name="githubUr"
-              value={updatedAssignment.branchName}
-              onChange={handleChange}
-            />
-            <input type="text" value={assignment.githubUrl} onChange={handleGithubUrlChange} />
-          </label>
-          <br/>
-          <label>
-            Branch Name:
-            <input
-              type="text"
-              name="branchName"
-              value={updatedAssignment.branchName}
-              onChange={handleChange}
-            />
-          </label>
-          <br/>
-          <label>
-            Review Video URL:
-            <input
-              type="text"
-              name="branchName"
-              value={updatedAssignment.reviewVideoUrl}
-              readOnly/
-            />
-          </label>
-          <br/>
-          <div className="buttons">
-            <button type="submit">Submit</button>
-            <button type="button" onClick={handleBack}>Back to Dashboard</button>
-          </div>
-        </form>
+      {assignment ? (
+        <>
+          <h2>Assignment #{assignment.number}: {assignment.status}</h2>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Assignment Number:
+              <select
+                name="number"
+                value={updatedAssignment.number}
+                onChange={handleChange}
+              >
+                {assignmentEnums.map(enumItem => (
+                  <option key={enumItem.number} value={enumItem.number}>
+                    {enumItem.number} - {enumItem.type}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <br/>
+            <label>
+              GitHub URL:
+              <input
+                type="text"
+                name="githubUrl"
+                value={updatedAssignment.githubUrl}
+                onChange={handleChange}
+              />
+            </label>
+            <br/>
+            <label>
+              Branch Name:
+              <input
+                type="text"
+                name="branchName"
+                value={updatedAssignment.branchName}
+                onChange={handleChange}
+              />
+            </label>
+            <br/>
+            <label>
+              Review Video URL:
+              <input
+                type="text"
+                name="reviewVideoUrl"
+                value={updatedAssignment.reviewVideoUrl}
+                readOnly
+              />
+            </label>
+            <br/>
+            <div className="buttons">
+              <button type="submit">Submit</button>
+              <button type="button" onClick={handleBack}>Back to Dashboard</button>
+            </div>
+          </form>
+        </>
       ) : (
-        <p> Loading... </p>
+        <p>No Assignments</p>
       )}
     </div>
   );
