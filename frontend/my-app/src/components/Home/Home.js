@@ -93,24 +93,31 @@ function Home() {
       </header>
       <main className="home-main">
         {isAuthenticated ? (
-          <>
-            <button onClick={handleDashboard} className="dashboard-button">
+          <div className="content-container">
+            <button
+              onClick={handleDashboard}
+              className="primary-button"
+            >
               Go to my Dashboard
             </button>
-            <p className="home-description">
+            <p className="description-text">
               Hello! Click to go to your Dashboard!
             </p>
-          </>
+          </div>
         ) : (
-          <>
-            <button onClick={() => navigate('/login')} className="login-button">
+          <div className="content-container">
+            <button
+              onClick={() => navigate('/login')}
+              className="primary-button"
+            >
               Login
             </button>
-            <p className="home-description">
+            <p className="description-text">
               Hello! Login to view your dashboard!
             </p>
-          </>
+          </div>
         )}
+      </main>
       </main>
       <footer className="home-footer">
 
