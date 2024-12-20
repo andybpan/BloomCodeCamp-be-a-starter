@@ -91,13 +91,18 @@ function LearnerAssignmentView({ assignment }) {
 
   // save - method
 //  add save display
-  const saveAssignment = () => {
-    axios.put(`/api/assignments/${id}`, updatedAssignment)
-      .then(response => {
-        setAssignment(response.data);
-        console.log('Assignment updated successfully');
-      })
-      .catch(error => console.error('Error updating assignment', error));
+  const saveAssignment = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.put(`/api/assignments/${id}`, updatedAssignment);
+      setAssignment(response.data);
+      console.log('Assignment updated successfully');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating assignment:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (error) {
