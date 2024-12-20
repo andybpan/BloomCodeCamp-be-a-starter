@@ -64,19 +64,23 @@ function LearnerAssignmentView({ assignment }) {
   };
 
   // Submit form method - with update attributes
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //    insert loading state for submission
-    axios.put(`/api/assignments/${id}`, {
-      number: updatedAssignment.number,
-      githubUrl: updatedAssignment.githubUrl,
-      branch: updatedAssignment.branchName,
-    })
-      .then(response => {
-        console.log('Assignment updated successfully');
-        navigate('/LearnerDashboard');
-      })
-      .catch(error => console.error('Error updating assignment', error));
+    setIsLoading(true);
+    try {
+      await axios.put(`/api/assignments/${id}`, {
+        number: updatedAssignment.number,
+        githubUrl: updatedAssignment.githubUrl,
+        branch: updatedAssignment.branchName,
+      });
+      console.log('Assignment updated successfully');
+      navigate('/LearnerDashboard');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating assignment:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Added navigation logic to go back to Dashboard
