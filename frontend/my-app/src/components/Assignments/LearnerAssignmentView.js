@@ -105,10 +105,15 @@ function LearnerAssignmentView({ assignment }) {
     }
   };
 
-  if (error) {
-    return <div>
-      {error}
-    </div>
+if (error) {
+    return (
+      <div>
+        <div>
+          <h2>Error</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {
