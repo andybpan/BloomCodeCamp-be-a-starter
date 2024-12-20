@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode'; // Ensure correct import
+import jwtDecode from 'jwt-decode';
 import { Loader2 } from "lucide-react";
+import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
