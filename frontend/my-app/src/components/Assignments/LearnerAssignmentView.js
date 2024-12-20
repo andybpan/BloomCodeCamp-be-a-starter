@@ -106,9 +106,14 @@ function LearnerAssignmentView({ assignment }) {
   };
 
   if (error) {
-    return <div>
-      {error}
-    </div>
+    return (
+      <div>
+        <div>
+          <h2>Error</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {
