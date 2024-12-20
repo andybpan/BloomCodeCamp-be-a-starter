@@ -60,13 +60,27 @@ function Home() {
   };
 
   // Check if the user is authenticated
-  const isAuthenticated = !!getRoleFromToken();
-
   if (isLoading) {
     return (
       <div className="home-container">
         <div className="loading-container">
           <Loader2 className="loading-spinner" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="home-container">
+        <div className="error-container">
+          <p className="error-message">{error}</p>
+          <button
+            onClick={() => setError(null)}
+            className="primary-button"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
