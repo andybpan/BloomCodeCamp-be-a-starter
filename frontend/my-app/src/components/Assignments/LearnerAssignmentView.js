@@ -24,16 +24,16 @@ function LearnerAssignmentView({ assignment }) {
 
   // Retrieve AssignmentDTO Based on Id
   useEffect(() => {
-    setIsLoading(true)
-    axios.get(`/api/assignments/${id}`) // Adjust the API
-      .then(response => {
-        // AssignmentDTO data
+    const fetchAssignment = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`/api/assignments/${id}`);
         const data = response.data;
+
         setAssignment(data.assignment);
         setStatusList(data.statusList);
-        setAssignmentEnums(assignmentEnums); // Store enums in state
+        setAssignmentEnums(data.assignmentEnums); // Fixed: was using undefined assignmentEnums
 
-        // Set current assignment data ?
         setUpdatedAssignment({
           number: data.assignment.number,
           status: data.assignment.status,
@@ -41,12 +41,17 @@ function LearnerAssignmentView({ assignment }) {
           branchName: data.assignment.branchName,
           reviewVideoUrl: data.assignment.reviewVideoUrl
         });
+
         console.log('Successful user assignment retrieval and loading');
-      })
-      .catch(error =>
-        setError(error)
-        console.error('Error fetching assignment', error));
-    setIsLoading(false)
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching assignment:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAssignment();
   }, [id]);
 
   // Generic handleChange method
