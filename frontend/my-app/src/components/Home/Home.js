@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode'; // Ensure correct import
+import jwtDecode from 'jwt-decode';
 import { Loader2 } from "lucide-react";
+import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
@@ -59,13 +60,27 @@ function Home() {
   };
 
   // Check if the user is authenticated
-  const isAuthenticated = !!getRoleFromToken();
-
   if (isLoading) {
     return (
       <div className="home-container">
         <div className="loading-container">
           <Loader2 className="loading-spinner" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="home-container">
+        <div className="error-container">
+          <p className="error-message">{error}</p>
+          <button
+            onClick={() => setError(null)}
+            className="primary-button"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -78,24 +93,31 @@ function Home() {
       </header>
       <main className="home-main">
         {isAuthenticated ? (
-          <>
-            <button onClick={handleDashboard} className="dashboard-button">
+          <div className="content-container">
+            <button
+              onClick={handleDashboard}
+              className="primary-button"
+            >
               Go to my Dashboard
             </button>
-            <p className="home-description">
+            <p className="description-text">
               Hello! Click to go to your Dashboard!
             </p>
-          </>
+          </div>
         ) : (
-          <>
-            <button onClick={() => navigate('/login')} className="login-button">
+          <div className="content-container">
+            <button
+              onClick={() => navigate('/login')}
+              className="primary-button"
+            >
               Login
             </button>
-            <p className="home-description">
+            <p className="description-text">
               Hello! Login to view your dashboard!
             </p>
-          </>
+          </div>
         )}
+      </main>
       </main>
       <footer className="home-footer">
 
