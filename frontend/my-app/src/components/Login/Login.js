@@ -9,6 +9,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  /* Update and refactor js page to use a service page separate from the page logic */
   const handleLogin = async (event) => {
     event.preventDefault();
     setIsLoading(true);
