@@ -56,6 +56,13 @@ function Login() {
     );
   }
 
+
+  if (isLoading) {
+    return <div>
+      <p>logging in ... </p>
+    </div>
+  }
+
   return (
     <div className="login-container">
       <div className="header">
