@@ -16,7 +16,7 @@ function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://your-backend-url/api/login', {
+      const response = await fetch('http://assignment/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
