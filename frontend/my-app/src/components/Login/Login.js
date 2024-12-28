@@ -15,13 +15,18 @@ function Login() {
     setIsLoading(true);
     setError('');
 
+    const credentials: AuthCredentialsRequest = {
+        username,
+        password
+    };
+
     try {
-      const response = await fetch('http://assignment/api/auth/login', {
+      const response = await fetch('http://assignmentManager/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
