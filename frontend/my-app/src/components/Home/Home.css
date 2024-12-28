@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: flex-start;
   flex: 1;
-  padding-top: 25px; /* Add some padding to separate from header */
+  padding-top: 25px;
 }
 
 .login-button {
