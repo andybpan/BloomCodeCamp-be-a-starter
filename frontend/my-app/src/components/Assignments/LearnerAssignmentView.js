@@ -118,7 +118,7 @@ function LearnerAssignmentView({ assignment }) {
 
   if (isLoading) {
     return <div>
-      loading assignments ...
+      <p>loading assignments ... </p>
     </div>
   }
 
