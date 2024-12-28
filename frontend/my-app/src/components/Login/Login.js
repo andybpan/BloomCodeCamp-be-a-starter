@@ -9,6 +9,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+
   /* Update and refactor js page to use a service page separate from the page logic */
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,6 +43,18 @@ function Login() {
       setIsLoading(false);
     }
   };
+
+  // Design error message for user fix login
+  if (error) {
+    return (
+      <div>
+        <div>
+          <h2>Error</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="login-container">
