@@ -77,34 +77,29 @@ function Dashboard() {
     fetchAssignments();
   }, []);
 
-
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <div className="text-center space-y-4">
-          <h2 className="text-xl font-semibold text-red-600">
-            Unable to load dashboard
-          </h2>
-          <p className="text-gray-600">
-            {error}
-          </p>
-          <Button
-            onClick={fetchAssignments}
-            variant="outline"
-          >
-            Try again
-          </Button>
-        </div>
+      <div className="error-container">
+        <p className="error-message">Oops! Something went wrong:</p>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className="retry-button">Retry</button>
       </div>
     );
   }
 
+//          <Button
+//            onClick={fetchAssignments}
+//            variant="outline"
+//          >
+//            Try again
+//          </Button>
+
   // insert spin icon
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="loading-container">
         <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Loading Dashboard...</span>
+        <p className="loading-message">Loading assignments, please wait...</p>
       </div>
     );
   }
