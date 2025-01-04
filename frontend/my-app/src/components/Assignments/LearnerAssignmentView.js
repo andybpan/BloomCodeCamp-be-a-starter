@@ -3,6 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './AssignmentView.css';
 
+/*
+* Learner Assignment Viewer - Allows the user to access, modify, and update their assignment's info
+* A learner can:
+* - update the number, status, link, and branch name
+* - submit or save the assignment
+* - or close the viewer
+*/
 function LearnerAssignmentView({ assignment }) {
   const { id } = useParams();
   const navigate = useNavigate();
