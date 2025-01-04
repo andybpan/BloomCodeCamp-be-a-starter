@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Loader2 } from "lucide-react";
 import './AssignmentView.css';
 
 /*
@@ -125,6 +126,7 @@ function LearnerAssignmentView({ assignment }) {
 
   if (isLoading) {
     return <div>
+      <Loader2 className="loading-spinner" />
       <p>loading assignments ... </p>
     </div>
   }
