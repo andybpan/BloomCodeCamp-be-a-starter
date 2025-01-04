@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { Loader2 } from "lucide-react";
 
 /*
 * Login page - allows the user to login into their learner or reviewer account
@@ -61,6 +62,7 @@ function Login() {
 
   if (isLoading) {
     return <div>
+      <Loader2 className="loading-spinner" />
       <p>logging in ... </p>
     </div>
   }
