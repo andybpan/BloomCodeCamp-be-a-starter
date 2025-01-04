@@ -6,8 +6,7 @@ import './AssignmentView.css';
 /*
 * Learner Assignment Viewer - Allows the user to access, modify, and update their assignment's info
 * A learner can:
-* - modify the status
-* - upload a link
+* - update the number, status, link, and branch name
 * - submit or save the assignment
 * - or close the viewer
 */
