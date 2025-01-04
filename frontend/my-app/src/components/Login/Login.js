@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+/*
+* Login page - allows the user to login into their learner or reviewer account
+*/
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
