@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './AssignmentView.css';
 import { useNavigate } from 'react-router-dom';
+import { Loader2 } from "lucide-react";
 
 function ReviewerAssignmentView() {
     const [assignmentNumber, setAssignmentNumber] = useState('');
@@ -47,7 +48,8 @@ function ReviewerAssignmentView() {
     if (isLoading):
       return (
         <div>
-          Loading Assignments ...
+          <Loader2 className="loading-spinner" />
+          <p>loading assignment ... </p>
         </div>
       )
 
