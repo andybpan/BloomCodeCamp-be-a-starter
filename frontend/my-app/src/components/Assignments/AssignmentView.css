@@ -1,59 +1,82 @@
-.assignment-view {
-    border: 1px solid #ccc;
-    padding: 20px;
-    width: 60%;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.assignment-view form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
 }
 
-label {
-    margin-bottom: 10px;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-input, select {
-    width: 100%; /* Ensures inputs take full width of label */
-    padding: 8px;
-    margin-top: 5px;
+.modal-content label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.buttons button {
-    padding: 10px 20px; /* Adds padding to buttons for better touch interaction */
-    margin-right: 10px; /* Adds margin between buttons */
+.modal-content input,
+.modal-content select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.buttons {
-    width: 100%; /* Adjusts button container to full width of form */
-    display: flex;
-    justify-content: space-around; /* Evenly spaces buttons within the container */
-    margin-top: 20px;
+.button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 
-input[readonly] {
-    background-color: #f3f3f3; /* Light grey background */
-    color: #6c757d; /* Dimmed text color */
-    border: 1px solid #ced4da; /* Subtle border color */
-    cursor: not-allowed; /* Cursor indicates non-editable */
+.button-container button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
+.button-container button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
 
+.button-container button[type="button"] {
+  background-color: #f44336;
+  color: white;
+}
 
+.loading-container,
+.error-container {
+  text-align: center;
+  padding: 2rem;
+}
 
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
 
-
-
-
-
-
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
