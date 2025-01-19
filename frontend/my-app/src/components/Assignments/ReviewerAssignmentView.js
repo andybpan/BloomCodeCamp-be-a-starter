@@ -4,15 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { Loader2 } from "lucide-react";
 
 function ReviewerAssignmentView() {
-  const [assignmentNumber, setAssignmentNumber] = useState('');
-  const [assignmentStatus, setAssignmentStatus] = useState('');
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [githubUrl, setGithubUrl] = useState('https://github.com/example/repo'); // Example URL
-  const [branchName, setBranchName] = useState('main'); // Example branch name
-  const [reviewVideoUrl, setReviewVideoUrl] = useState('');
+  const [assignment, setAssignment] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-   const dashboardNavigate = useNavigate();
+  const [updatedAssignment, setUpdatedAssignment] = useState({
+    number: '',
+    status: '',
+    githubUrl: '',
+    branchName: '',
+    reviewVideoUrl: '',
+  });
+
+  const dashboardNavigate = useNavigate();
 
   // Fetch assignment data
   useEffect(() => {
