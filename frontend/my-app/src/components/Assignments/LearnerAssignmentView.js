@@ -11,7 +11,7 @@ import './AssignmentView.css';
 * - submit or save the assignment
 * - or close the viewer
 */
-function LearnerAssignmentView({ assignment }) {
+function LearnerAssignmentView() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ function LearnerAssignmentView({ assignment }) {
       await axios.put(`/api/assignments/${id}`, {
         number: updatedAssignment.number,
         githubUrl: updatedAssignment.githubUrl,
-        branch: updatedAssignment.branchName,
+        branchName: updatedAssignment.branchName,
       });
       console.log('Assignment updated successfully');
       navigate('/LearnerDashboard');
