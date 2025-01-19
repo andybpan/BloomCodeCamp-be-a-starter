@@ -57,28 +57,43 @@ function ReviewerAssignmentView() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  // Save assignment as Completed
+  const handleSaveCompleted = async (event) => {
     event.preventDefault();
-    console.log('Submitted:', { assignmentNumber, assignmentStatus, githubUrl, branchName, reviewVideoUrl });
-    // Add logic to process submission here
-
-    // navigation logic
-    dashboardNavigate('/ReviewerDashboard')
+    setIsLoading(true);
+    try {
+      await axios.put(`/api/assignments/${id}/review`, {
+        ...updatedAssignment,
+        status: 'Completed',
+      });
+      console.log('Assignment marked as Completed');
+      navigate('/ReviewerDashboard');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating assignment status:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-    const handleReject = () => {
-      console.log('Assignment rejected');
-      setAssignmentStatus('Rejected'); // Change status to rejected
-      // Additional logic for rejection can be implemented here
+  // Save assignment as Needs Update
+  const handleSaveNeedsUpdate = async () => {
+    setIsLoading(true);
+    try {
+      await axios.put(`/api/assignments/${id}/review`, {
+        ...updatedAssignment,
+        status: 'Needs Update',
+      });
+      console.log('Assignment marked as Needs Update');
+      navigate('/ReviewerDashboard');
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating assignment status:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      // navigation logic
-      dashboardNavigate('/ReviewerDashboard')
-    };
-
-    const handleBack = () => {
-      console.log("Navigating back to Reviewer's dashboard");
-      dashboardNavigate('/ReviewerDashboard')
-    };
 
   if (isLoading){
     return (
