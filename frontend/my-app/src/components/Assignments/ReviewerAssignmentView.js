@@ -80,48 +80,51 @@ function ReviewerAssignmentView() {
       dashboardNavigate('/ReviewerDashboard')
     };
 
-    if (isLoading):
-      return (
-        <div>
-          <Loader2 className="loading-spinner" />
-          <p>loading assignment ... </p>
-        </div>
-      )
-
-    if (error):
-       return (
-         <div>
-           {error}
-         </div>
-       )
-
+  if (isLoading){
     return (
-      <div className="assignment-view">
-        <h2>Assignment #{assignmentNumber} : {assignmentStatus}</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            GitHub URL:
-            <input type="text" value={githubUrl} readOnly/>
-          </label>
-          <br/>
-          <label>
-            Branch Name:
-            <input type="text" value={branchName} readOnly/>
-          </label>
-          <br/>
-          <label>
-            Review Video URL:
-            <input type="text" value={reviewVideoUrl} onChange={handleReviewVideoUrlChange} />
-          </label>
-          <br/>
-          <div className="buttons">
-            <button type="submit">Submit</button>
-            <button type="button" onClick={handleReject}>Reject</button>
-            <button type="button" onClick={handleBack}>Back to Dashboard</button>
-          </div>
-        </form>
+      <div>
+        <Loader2 className="loading-spinner" />
+        <p>loading assignment ... </p>
       </div>
-    );
+    )
+  }
+
+  if (error) {
+    return (
+     <div>
+       {error}
+     </div>
+   )
+  }
+
+
+  return (
+    <div className="assignment-view">
+      <h2>Assignment #{assignmentNumber} : {assignmentStatus}</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          GitHub URL:
+          <input type="text" value={githubUrl} readOnly/>
+        </label>
+        <br/>
+        <label>
+          Branch Name:
+          <input type="text" value={branchName} readOnly/>
+        </label>
+        <br/>
+        <label>
+          Review Video URL:
+          <input type="text" value={reviewVideoUrl} onChange={handleReviewVideoUrlChange} />
+        </label>
+        <br/>
+        <div className="buttons">
+          <button type="submit">Submit</button>
+          <button type="button" onClick={handleReject}>Reject</button>
+          <button type="button" onClick={handleBack}>Back to Dashboard</button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default ReviewerAssignmentView;
